@@ -6,8 +6,8 @@ STD			= c++17
 INCLUDE_DIRS		= -I.
 
 # compiler parameters for compiling and linking
-COMPILING_OPTIONS	= -c -g -std=$(STD) $(INCLUDE_DIRS) -Wall
-LINKING_OPTIONS		= -g -std=$(STD) -Wall
+COMPILING_OPTIONS	= -c -g -std=$(STD) $(INCLUDE_DIRS) -Wall -Wextra
+LINKING_OPTIONS		= -g -std=$(STD) -Wall -Wextra
 
 # list of project headers
 HEADERS			= bstree.hpp
@@ -24,7 +24,7 @@ TESTERS			= $(TESTERS_SRC:.cpp=)
 	$(COMPILER) $(COMPILING_OPTIONS) $< -o $@
 
 # instructions for creating tester programs and running them
-%_test : %_test.o
+%_test : %_test.o %.hpp
 	$(COMPILER) $(LINKING_OPTIONS) $< -o $@
 	./$@
 
