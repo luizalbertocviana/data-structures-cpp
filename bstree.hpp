@@ -266,109 +266,16 @@ public:
   // removes Key and corresponding attached Val. Return value
   // indicates whether removal really took place
   bool remove(Key key){
-    // if BSTree is not empty, we may have something to delete
-    if (root){
-      // raw pointers to perform a traversal
-      BSTreeNode* currentNode = root.get();
-      // since currentNode starts pointing towards root, it has no
-      // parent node
-      BSTreeNode* parentNode  = nullptr;
+    // first we verify whether key is present in the tree
+    bool hasKey = search(key);
 
-      // tries to find requested key. This may end up in an empty
-      // subtree
-      while (currentNode && key != currentNode->key){
-        // updates parentNode
-        parentNode = currentNode;
-        // goes either left or right accordingly
-        if (key < currentNode->key){
-          currentNode = currentNode->left.get();
-        }
-        else if (key > currentNode->key){
-          currentNode = currentNode->right.get();
-        }
-      }
-      // now we must verify why we exited the while loop
+    // in case it is, we call remove_ to do the proper removal.
+    // Notice that remove_ should only be called for existing keys
+    if (hasKey){
+      remove_(key);
 
-      // if currentNode is not nullptr, we exited the while loop
-      // because key == currentNode->key, so currentNode content must
-      // be deleted
-      if (currentNode){
-        // currentNode has no subtrees, so it can safely be deleted
-        if (currentNode->left == nullptr && currentNode->right == nullptr){
-          // currentNode is not root
-          if (parentNode){
-            // currentNode is parentNode's left child
-            if (currentNode->key < parentNode->key){
-              // this assignment is enough to deallocate currentNode
-              parentNode->left = nullptr;
-            }
-            // currentNode is parentNode's right child
-            else if (currentNode->key >  parentNode->key){
-              parentNode->right = nullptr;
-            }
-          }
-          // currentNode is root, so we simply deallocate BSTreeNode
-          // at root
-          else{
-            root = nullptr;
-          }
-        }
-        // currentNode has both subtrees not empty
-        else if (currentNode->left && currentNode->right){
-          // we could also have taken currentNode->right->minKey
-          auto[leftMaxKey, leftMaxVal] = currentNode->left->maxKey();
-
-          remove(leftMaxKey);
-
-          currentNode->key = leftMaxKey;
-          currentNode->val = leftMaxVal;
-        }
-        // currentNode has exactly one subtree not empty
-        else{
-          // currentNode is not root
-          if (parentNode){
-            // currentNode is parentNode's left child
-            if (currentNode->key < parentNode->key){
-              if (currentNode->left){
-                // notice how we don't copy the unique_ptr. We move it
-                // instead
-                parentNode->left = std::move(currentNode->left);
-              }
-              else if (currentNode->right){
-                parentNode->left = std::move(currentNode->right);
-              }
-            }
-            // currentNode is parentNode's right child
-            else if (currentNode->key > parentNode->key){
-              if (currentNode->left){
-                parentNode->right = std::move(currentNode->left);
-              }
-              else if (currentNode->right){
-                parentNode->right = std::move(currentNode->right);
-              }
-            }
-          }
-          // currentNode is root, so we update root to be its only
-          // nonempty subtree
-          else{
-            if (currentNode->left){
-              root = std::move(currentNode->left);
-            }
-            else if (currentNode->right){
-              root = std::move(currentNode->right);
-            }
-          }
-        }
-        
-        return true;
-      }
-      // if currentNode is nullptr, then the only subtree that could
-      // contain key is empty, so no deletion is performed
-      else{
-        return false;
-      }
+      return true;
     }
-    // if BSTree is empty, we simply indicate nothing was deleted
     else{
       return false;
     }
