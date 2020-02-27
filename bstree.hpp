@@ -31,7 +31,7 @@ private:
     {}
 
     // returns Key Val pair whose Key is maximum
-    std::pair<Key, Val> maxKey(){
+    std::pair<Key, Val> maxKey() const {
       if (right){
         return right->maxKey();
       }
@@ -41,7 +41,7 @@ private:
     }
 
     // returns Key Val pair whose Key is minimum
-    std::pair<Key, Val> minKey(){
+    std::pair<Key, Val> minKey() const {
       if (left){
         return left->minKey();
       }
@@ -51,7 +51,7 @@ private:
     }
 
     // searches for Key, returning a Val or nothing
-    std::optional<Val> search(Key k){
+    std::optional<Val> search(Key k) const {
       // current node contains requested key
       if (k == key){
         return val;
@@ -113,13 +113,13 @@ public:
   BSTree(Key key, Val val) : root{std::make_unique<BSTreeNode>(key, val)}
   {}
 
-  bool isEmpty(){
+  bool isEmpty() const {
     return root == nullptr;
   }
 
   // returns Key Val pair whose Val corresponds to the maximum BSTree
   // Key
-  std::optional<std::pair<Key, Val>> maxKey(){
+  std::optional<std::pair<Key, Val>> maxKey() const {
     if (root){
       return root->maxKey();
     }
@@ -130,7 +130,7 @@ public:
 
   // returns Key Val pair whose Val corresponds to the minimum BSTree
   // Key
-  std::optional<std::pair<Key, Val>> ninKey(){
+  std::optional<std::pair<Key, Val>> ninKey() const {
     if (root){
       return root->minKey();
     }
@@ -140,7 +140,7 @@ public:
   }
 
   // searches for Key, returning the corresponding Value or nothing
-  std::optional<Val> search(Key key){
+  std::optional<Val> search(Key key) const {
     if (root){
       return root->search(key);
     }
