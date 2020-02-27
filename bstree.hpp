@@ -102,6 +102,106 @@ protected:
     }
   };
 
+  // this method should be called only for keys contained in BSTree.
+  // Removes Key and corresponding attached Val.  In case deleted node
+  // is not root, returns key of node whose child has been deleted
+  std::optional<Key> remove_(Key key){
+    // raw pointers to perform a traversal
+    BSTreeNode* currentNode = root.get();
+    // since currentNode starts pointing towards root, it has no
+    // parent node
+    BSTreeNode* parentNode  = nullptr;
+
+    // finds requested key
+    while (key != currentNode->key){
+      // updates parentNode
+      parentNode = currentNode;
+      // goes either left or right accordingly
+      if (key < currentNode->key){
+        currentNode = currentNode->left.get();
+      }
+      else if (key > currentNode->key){
+        currentNode = currentNode->right.get();
+      }
+    }
+    // currentNode has no subtrees, so it can safely be deleted
+    if (currentNode->left == nullptr && currentNode->right == nullptr){
+      // currentNode is not root
+      if (parentNode){
+        // currentNode is parentNode's left child
+        if (currentNode->key < parentNode->key){
+          // this assignment is enough to deallocate currentNode
+          parentNode->left = nullptr;
+        }
+        // currentNode is parentNode's right child
+        else if (currentNode->key >  parentNode->key){
+          parentNode->right = nullptr;
+        }
+
+        return parentNode->key;
+      }
+      // currentNode is root, so we simply deallocate BSTreeNode
+      // at root
+      else{
+        root = nullptr;
+
+        return {};
+      }
+    }
+    // currentNode has both subtrees not empty
+    else if (currentNode->left && currentNode->right){
+      // we could also have taken currentNode->right->minKey
+      auto[leftMaxKey, leftMaxVal] = currentNode->left->maxKey();
+
+      std::optional<Key> parentKey = remove_(leftMaxKey);
+
+      currentNode->key = leftMaxKey;
+      currentNode->val = leftMaxVal;
+
+      return parentKey;
+    }
+    // currentNode has exactly one subtree not empty
+    else{
+      // currentNode is not root
+      if (parentNode){
+        // currentNode is parentNode's left child
+        if (currentNode->key < parentNode->key){
+          if (currentNode->left){
+            // notice how we don't copy the unique_ptr. We move it
+            // instead
+            parentNode->left = std::move(currentNode->left);
+          }
+          else if (currentNode->right){
+            parentNode->left = std::move(currentNode->right);
+          }
+        }
+        // currentNode is parentNode's right child
+        else if (currentNode->key > parentNode->key){
+          if (currentNode->left){
+            parentNode->right = std::move(currentNode->left);
+          }
+          else if (currentNode->right){
+            parentNode->right = std::move(currentNode->right);
+          }
+        }
+
+        return parentNode->key;
+      }
+      // currentNode is root, so we update root to be its only
+      // nonempty subtree
+      else{
+        if (currentNode->left){
+          root = std::move(currentNode->left);
+        }
+        else if (currentNode->right){
+          root = std::move(currentNode->right);
+        }
+
+        return {};
+      }
+    }
+  }
+
 private:
   // root node of BSTree
   std::unique_ptr<BSTreeNode> root;
