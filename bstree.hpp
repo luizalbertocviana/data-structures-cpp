@@ -70,6 +70,7 @@ private:
 
     // inserts Val attached to Key in case Key is not present. Return
     // value indicates whether insertion really happened
+    template<typename Node>
     bool insert(Key k, Val v){
       // current node already contains Key, so does nothing
       if (k == key){
@@ -79,20 +80,20 @@ private:
       else if (k < key){
         // if left subtree is not empty, recursively inserts into it
         if (left){
-          return left->insert(k, v);
+          return left->template insert<Node>(k, v);
         }
         // if left subtree is empty, insertion will occur
         else{
-          left = std::make_unique<BSTreeNode>(k, v);
+          left = std::make_unique<Node>(k, v);
         }
       }
       // same idea but applied to right subtree
       else if (k > key){
         if (right){
-          return right->insert(k, v);
+          return right->template insert<Node>(k, v);
         }
         else{
-          right = std::make_unique<BSTreeNode>(k, v);
+          right = std::make_unique<Node>(k, v);
         }
       }
       // if execution reaches this line, insertion indeed has occured,
@@ -153,7 +154,7 @@ public:
   // yet. Return value indicates whether insertion really took place
   bool insert(Key key, Val val){
     if (root){
-      return root->insert(key, val);
+      return root->template insert<BSTreeNode>(key, val);
     }
     else{
       root = std::make_unique<BSTreeNode>(key, val);
