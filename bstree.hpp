@@ -13,7 +13,7 @@ protected:
   // node of BSTree
   class BSTreeNode{
   public:
-    // since this is an internal private class, there is no need to
+    // since this is an internal protected class, there is no need to
     // private members
     Key key;
     Val val;
