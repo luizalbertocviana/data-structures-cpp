@@ -5,6 +5,8 @@
 #include <memory>
 // this type is helpful to represent optional value returning
 #include <optional>
+// stack data structure
+#include <stack>
 
 // generic types
 template<typename Key, typename Val>
@@ -106,23 +108,22 @@ protected:
   // Removes Key and corresponding attached Val.  In case deleted node
   // is not root, returns key of node whose child has been deleted
   std::optional<Key> removeExistingKey(Key key){
-    // raw pointers to perform a traversal
-    BSTreeNode* currentNode = root.get();
-    // since currentNode starts pointing towards root, it has no
-    // parent node
+    // raw pointers to the node to be deleted and its parent
+    BSTreeNode* currentNode = nullptr;
     BSTreeNode* parentNode  = nullptr;
-
-    // finds requested key
-    while (key != currentNode->key){
-      // updates parentNode
-      parentNode = currentNode;
-      // goes either left or right accordingly
-      if (key < currentNode->key){
-        currentNode = currentNode->left.get();
+    // the only intent of this scope is to allow path to die quickly
+    {
+      // here we have the path from root node to node containing key
+      std::stack<BSTreeNode*> path = pathToExistingKey(key);
+      // node that should be deleted is at the top of path...
+      currentNode = path.top();
+      // ... and its parent is right below ...
+      path.pop();
+      // ... if it has a parent, of course
+      if (!path.empty()){
+        parentNode = path.top();
       }
-      else if (key > currentNode->key){
-        currentNode = currentNode->right.get();
-      }
+      // and here path dies, so we are not wasting memory
     }
     // currentNode has no subtrees, so it can safely be deleted
     if (currentNode->left == nullptr && currentNode->right == nullptr){
@@ -200,6 +201,33 @@ protected:
         return {};
       }
     }
+  }
+
+  // returns a stack containing pointers to BSTreeNodes that form a
+  // path to an existing key of the tree.  Don't call this before
+  // verifying key is present in the tree
+  std::stack<BSTreeNode*> pathToExistingKey(Key key) const {
+    // a stack of references to BSTreeNode
+    std::stack<BSTreeNode*> stk{};
+    // raw pointer to perform a traversal
+    BSTreeNode* currentNode = root.get();
+
+    // if current key is not what we want, we go down
+    while (key != currentNode->key){
+      // store reference to currentNode...
+      stk.push(currentNode);
+      // ... and go down accordingly
+      if (key < currentNode->key){
+        currentNode = currentNode->left.get();
+      }
+      else if (key > currentNode->key){
+        currentNode = currentNode->right.get();
+      }
+    }
+    // we put the destination node on top of stk
+    stk.push(currentNode);
+
+    return stk;
   }
 
 private:
