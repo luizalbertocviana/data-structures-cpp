@@ -105,7 +105,7 @@ protected:
   // this method should be called only for keys contained in BSTree.
   // Removes Key and corresponding attached Val.  In case deleted node
   // is not root, returns key of node whose child has been deleted
-  std::optional<Key> remove_(Key key){
+  std::optional<Key> removeExistingKey(Key key){
     // raw pointers to perform a traversal
     BSTreeNode* currentNode = root.get();
     // since currentNode starts pointing towards root, it has no
@@ -153,7 +153,7 @@ protected:
       // we could also have taken currentNode->right->minKey
       auto[leftMaxKey, leftMaxVal] = currentNode->left->maxKey();
 
-      std::optional<Key> parentKey = remove_(leftMaxKey);
+      std::optional<Key> parentKey = removeExistingKey(leftMaxKey);
 
       currentNode->key = leftMaxKey;
       currentNode->val = leftMaxVal;
@@ -269,10 +269,10 @@ public:
     // first we verify whether key is present in the tree
     bool hasKey = search(key);
 
-    // in case it is, we call remove_ to do the proper removal.
-    // Notice that remove_ should only be called for existing keys
+    // in case it is, we call removeExistingKey to do the proper removal.
+    // Notice that removeExistingKey should only be called for existing keys
     if (hasKey){
-      remove_(key);
+      removeExistingKey(key);
 
       return true;
     }
