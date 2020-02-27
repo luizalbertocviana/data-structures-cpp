@@ -9,7 +9,7 @@
 // generic types
 template<typename Key, typename Val>
 class BSTree{
-private:
+protected:
   // node of BSTree
   class BSTreeNode{
   public:
@@ -102,6 +102,7 @@ private:
     }
   };
 
+private:
   // root node of BSTree
   std::unique_ptr<BSTreeNode> root;
 
