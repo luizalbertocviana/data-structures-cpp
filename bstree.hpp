@@ -230,10 +230,13 @@ protected:
     return stk;
   }
 
-  // this protected constructor allows derived classes to initialize
+  // this protected method allows derived classes to initialize
   // root with their own BSTreeNode derived nodes
-  BSTree(std::unique_ptr<BSTreeNode> r) : root{std::move(r)}
-  {}
+  void initializeRoot(std::unique_ptr<BSTreeNode> r){
+    if (root == nullptr){
+      root = std::move(r);
+    }
+  }
 
 private:
   // root node of BSTree
