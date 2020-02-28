@@ -1,4 +1,4 @@
-# compiler and c++ standard variables
+#compiler and c++ standard variables
 COMPILER		= g++
 STD			= c++17
 
@@ -10,7 +10,7 @@ COMPILING_OPTIONS	= -c -g -std=$(STD) $(INCLUDE_DIRS) -Wall -Wextra
 LINKING_OPTIONS		= -g -std=$(STD) -Wall -Wextra
 
 # list of project headers
-HEADERS			= bstree.hpp
+HEADERS			= bstree.hpp avltree.hpp
 
 # these variables define one tester program for each header
 TESTERS_SRC		= $(HEADERS:.hpp=_test.cpp)
