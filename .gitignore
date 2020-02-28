@@ -1,2 +1,6 @@
 /bstree_test
 *.zip
+/#makefile#
+/avltree.hpp~
+/avltree_test
+/avltree_test.cpp~
