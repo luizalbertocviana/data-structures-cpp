@@ -203,14 +203,15 @@ protected:
     }
   }
 
-  // returns a stack containing pointers to BSTreeNodes that form a
+  // returns a stack containing pointers to tree nodes that form a
   // path to an existing key of the tree.  Don't call this before
   // verifying key is present in the tree
-  std::stack<BSTreeNode*> pathToExistingKey(Key key) const {
-    // a stack of references to BSTreeNode
-    std::stack<BSTreeNode*> stk{};
+  template<typename Node>
+  std::stack<Node*> pathToExistingKey(Key key) const {
+    // a stack of references to Node
+    std::stack<Node*> stk{};
     // raw pointer to perform a traversal
-    BSTreeNode* currentNode = root.get();
+    Node* currentNode = root.get();
 
     // if current key is not what we want, we go down
     while (key != currentNode->key){
