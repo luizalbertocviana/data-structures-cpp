@@ -114,7 +114,7 @@ protected:
     // the only intent of this scope is to allow path to die quickly
     {
       // here we have the path from root node to node containing key
-      std::stack<BSTreeNode*> path = pathToExistingKey(key);
+      std::stack<BSTreeNode*> path = pathToExistingKey<BSTreeNode>(key);
       // node that should be deleted is at the top of path...
       currentNode = path.top();
       // ... and its parent is right below ...
