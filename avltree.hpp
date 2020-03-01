@@ -52,12 +52,23 @@ private:
       }
     }
   };
+  static std::pair<int, int> childrenHeights(const AVLTreeNode* node){
+    // get height of left and right subtrees
+    int leftHeight  = node->left  ? node->left->height  : -1;
+    int rightHeight = node->right ? node->right->height : -1;
+
+    return std::make_pair(leftHeight, rightHeight);
+  }
+  static int balanceFactor(const AVLTreeNode* node){
+    auto[leftHeight, rightHeight] = childrenHeights(node);
+
+    return rightHeight - leftHeight;
+  }
   // updates height of node based on the hights of its children.
   // Returns true in case height has been updated
   static bool updateHeight(AVLTreeNode* node){
     // get height of left and right subtrees
-    int leftHeight  = node->left  ? node->left->height  : -1;
-    int rightHeight = node->right ? node->right->height : -1;
+    auto[leftHeight, rightHeight] = childrenHeights(node);
     // calculates new height
     unsigned int newHeight = std::max(leftHeight, rightHeight) + 1;
     // if height has changed ...
@@ -87,6 +98,34 @@ private:
       path.pop();
     }
   }
+  // rebalances a node
+  static bool rebalanceNode(AVLTreeNode* node){
+    // calculates balance factor
+    int balanceFactor = balanceFactor(node);
+    // node is left-heavy
+    if (balanceFactor <= -2){
+      int leftBalanceFactor = balanceFactor(node->left);
+      if (leftBalanceFactor <= -1){
+        // right rotation
+      }
+      else if(leftBalanceFactor >= 1){
+        // left right rotation
+      }
+      return true;
+    }
+    // node is right-heavy
+    else if (balanceFactor >= 2){
+      int rightBalanceFactor = balanceFactor(node->right);
+      if (rightBalanceFactor >= 1){
+        // left rotation
+      }
+      else if (rightBalanceFactor <= -1){
+        // right left rotation
+      }
+      return true;
+    }
+    return false;
+  }
   // implementation of AVLTree
   template<typename Node>
   class AVLTreeWithNode : public BST::template BSTreeWithNode<Node>{
@@ -110,6 +149,7 @@ private:
         std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(key);
         // updates height of affected nodes
         updateHeightsOnPath(affectedPath);
+        // rebalance each affected node
       }
       
       return hasInserted;
