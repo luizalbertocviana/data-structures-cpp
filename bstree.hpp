@@ -1,108 +1,17 @@
 // each compilation session must consider this file at most once
 #pragma once
-
 // we are going to use smart pointer facilities
 #include <memory>
 // this type is helpful to represent optional value returning
 #include <optional>
 // stack data structure
 #include <stack>
-
 // generic types
 template<typename Key, typename Val>
 class BSTree{
 protected:
-  // node of BSTree
-  class BSTreeNode{
-  public:
-    // since this is an internal protected class, there is no need to
-    // private members
-    Key key;
-    Val val;
-    // smart pointers to left and right subtrees: these guys deal with
-    // memory deallocation by themselves
-    std::unique_ptr<BSTreeNode> left;
-    std::unique_ptr<BSTreeNode> right;
-
-    // constructor: notice that member initialization is done outside
-    // of the constructor body
-    BSTreeNode(Key k, Val v) : key{k},
-                               val{v},
-                               left{nullptr},
-                               right{nullptr}
-    {}
-
-    // returns Key Val pair whose Key is maximum
-    std::pair<Key, Val> maxKey() const {
-      if (right){
-        return right->maxKey();
-      }
-      else{
-        return std::make_pair(key, val);
-      }
-    }
-
-    // returns Key Val pair whose Key is minimum
-    std::pair<Key, Val> minKey() const {
-      if (left){
-        return left->minKey();
-      }
-      else{
-        return std::make_pair(key, val);
-      }
-    }
-
-    // searches for Key, returning a Val or nothing
-    std::optional<Val> search(Key k) const {
-      // current node contains requested key
-      if (k == key){
-        return val;
-      }
-      // left subtree is not empty and requested key may be at it
-      else if (left && k < key){
-        return left->search(k);
-      }
-      // the same in regard of right subtree
-      else if (right && k > key){
-        return right->search(k);
-      }
-      // if requested key cannot be found, return nothing
-      return {};
-    }
-
-    // inserts Val attached to Key in case Key is not present. Return
-    // value indicates whether insertion really happened
-    bool insert(Key k, Val v){
-      // current node already contains Key, so does nothing
-      if (k == key){
-        return false;
-      }
-      // insertion may occur at left subtree
-      else if (k < key){
-        // if left subtree is not empty, recursively inserts into it
-        if (left){
-          return left->insert(k, v);
-        }
-        // if left subtree is empty, insertion will occur
-        else{
-          left = std::make_unique<BSTreeNode>(k, v);
-        }
-      }
-      // same idea but applied to right subtree
-      else if (k > key){
-        if (right){
-          return right->insert(k, v);
-        }
-        else{
-          right = std::make_unique<BSTreeNode>(k, v);
-        }
-      }
-      // if execution reaches this line, insertion indeed has occured,
-      // so returns accordingly
-      return true;
-    }
-  };
-
+  // implements BSTree but does not define which node type is going to
+  // be used
   template<typename Node>
   class BSTreeWithNode{
   protected:
@@ -267,7 +176,21 @@ protected:
     // searches for Key, returning the corresponding Value or nothing
     std::optional<Val> search(Key key) const {
       if (root){
-        return root->search(key);
+        Node* curremtNoode = root.get();
+        while (curremtNoode){
+          if (key == curremtNoode->key){
+            return curremtNoode->val;
+          }
+          else{
+            if (key < curremtNoode->key){
+              curremtNoode = curremtNoode->left.get();
+            }
+            else if (key > curremtNoode->key){
+              curremtNoode = curremtNoode->right.get();
+            }
+          }
+        }
+        return {};
       }
       else{
         return {};
@@ -277,7 +200,31 @@ protected:
     // yet. Return value indicates whether insertion really took place
     bool insert(Key key, Val val){
       if (root){
-        return root->insert(key, val);
+        Node* currentNode = root.get();
+        while (currentNode){
+          if (key == currentNode->key){
+            return false;
+          }
+          else{
+            if (key < currentNode->key){
+              if (currentNode->left){
+                currentNode = currentNode->left.get();
+              }
+              else{
+                currentNode->left = std::make_unique<Node>(key, val);
+              }
+            }
+            else if (key > currentNode->key){
+              if (currentNode->right){
+                currentNode = currentNode->right.get();
+              }
+              else{
+                currentNode->right = std::make_unique<Node>(key, val);
+              }
+            }
+          }
+        }
+        return true;
       }
       else{
         root = std::make_unique<Node>(key, val);
@@ -289,7 +236,6 @@ protected:
     bool remove(Key key){
       // first we verify whether key is present in the tree
       bool hasKey = search(key);
-
       // in case it is, we call removeExistingKey to do the proper removal.
       // Notice that removeExistingKey should only be called for existing keys
       if (hasKey){
@@ -303,44 +249,71 @@ protected:
     }
   };
 private:
+  // node of BSTree
+  struct BSTreeNode{
+    Key key;
+    Val val;
+    // smart pointers to left and right subtrees: these guys deal with
+    // memory deallocation by themselves
+    std::unique_ptr<BSTreeNode> left;
+    std::unique_ptr<BSTreeNode> right;
+    // constructor: notice that member initialization is done outside
+    // of the constructor body
+    BSTreeNode(Key k, Val v) : key{k},
+                               val{v},
+                               left{nullptr},
+                               right{nullptr}
+    {}
+    // returns Key Val pair whose Key is maximum
+    std::pair<Key, Val> maxKey() const {
+      if (right){
+        return right->maxKey();
+      }
+      else{
+        return std::make_pair(key, val);
+      }
+    }
+    // returns Key Val pair whose Key is minimum
+    std::pair<Key, Val> minKey() const {
+      if (left){
+        return left->minKey();
+      }
+      else{
+        return std::make_pair(key, val);
+      }
+    }
+  };
   // A binary search tree with the proper type of node
   BSTreeWithNode<BSTreeNode> bst;
 public:
   // constructor to create an empty BSTree
   BSTree() : bst{}
   {}
-
   // constructor to create a BSTree rooted by Key and Val
   BSTree(Key key, Val val) : bst{key, val}
   {}
-
   bool isEmpty() const {
     return bst.isEmpty();
   }
-
   // returns Key Val pair whose Val corresponds to the maximum BSTree
   // Key
   std::optional<std::pair<Key, Val>> maxKey() const {
     return bst.maxKey();
   }
-
   // returns Key Val pair whose Val corresponds to the minimum BSTree
   // Key
   std::optional<std::pair<Key, Val>> ninKey() const {
     return bst.ninKey();
   }
-
   // searches for Key, returning the corresponding Value or nothing
   std::optional<Val> search(Key key) const {
     return bst.search(key);
   }
-
   // inserts Val attached to Key in case Key is not present
   // yet. Return value indicates whether insertion really took place
   bool insert(Key key, Val val){
     return bst.insert(key, val);
   }
-
   // removes Key and corresponding attached Val. Return value
   // indicates whether removal really took place
   bool remove(Key key){
