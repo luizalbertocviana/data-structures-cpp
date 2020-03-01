@@ -13,18 +13,16 @@
 template<typename Key, typename Val>
 class AVLTree : public BSTree<Key, Val>{
 private:
-  // type aliases for saving us from some typing
+  // type alias for saving us from some typing
   using BST = BSTree<Key, Val>;
-  // since BST has not been instantiated yet, we need to tell the
-  // compiler that BSTreeNode is a type name
-  // the node of AVLTree is derived from the node of BSTree
+  // the node of AVLTree
   struct AVLTreeNode{
     Key key;
     Val val;
     // smart pointers
     std::unique_ptr<AVLTreeNode> left;
     std::unique_ptr<AVLTreeNode> right;
-    // height of node
+    // height of node (no negative value makes sense)
     unsigned int height;
     // initializes AVLTreeNode.  Since it has no children, it has
     // height zero
@@ -34,7 +32,8 @@ private:
                                 right{nullptr},
                                 height{0}
     {}
-    // returns Key Val pair whose Key is maximum
+    // returns Key Val pair whose Key is maximum.  We need this
+    // information on every subtree for the removal algorithm
     std::pair<Key, Val> maxKey() const {
       if (right){
         return right->maxKey();
@@ -53,13 +52,15 @@ private:
       }
     }
   };
+  // updates height of node based on the hights of its children.
+  // Returns true in case height has been updated
   bool updateHeight(AVLTreeNode* node){
     // get height of left and right subtrees
     int leftHeight  = node->left  ? node->left->height  : -1;
     int rightHeight = node->right ? node->right->height : -1;
     // calculates new height
     unsigned int newHeight = std::max(leftHeight, rightHeight) + 1;
-    // if height has changed...
+    // if height has changed ...
     if (newHeight != node->height){
       node->height = newHeight;
 
@@ -69,31 +70,36 @@ private:
       return false;
     }
   }
-  // updates height of each node contained in the stack
+  // updates height of each node contained in path
   void updateHeightsOnPath(std::stack<AVLTreeNode*> path){
     // node to have height updated
     AVLTreeNode* currentNode = nullptr;
-    // while there are nodes to update
-    while (!path.empty()){
+    // indicates whether last update really changed node height.
+    // Initial value is true so we can enter the while loop
+    bool hasChanged = true;
+    // while there are nodes to be updated
+    while (hasChanged && !path.empty()){
       // gets a new node
       currentNode = path.top();
       // updates its height
-      updateHeight(currentNode);
+      hasChanged = updateHeight(currentNode);
       // then discards its reference
       path.pop();
     }
   }
 
+  // implementation of AVLTree
   template<typename Node>
   class AVLTreeWithNode : public BST::template BSTreeWithNode<Node>{
   private:
+    // since BST is not instantiated yet, we need to tell the compiler
+    // that BSTreeWithNode is a template and a type name when instantiated
     using BSTWithNode = typename BST::template BSTreeWithNode<Node>;
   public:
-    // builds an empty AVLTree. Basically delegates all the work to BSTree
+    // builds an empty AVLTree. Basically delegates all the work to BSTreeWithNode
     AVLTreeWithNode() : BSTWithNode{}
     {}
-    // Creates an AVLTree with a nonempty root.  Notice that we use the
-    // protected initializeRoot of BSTree to pass an allocated root node
+    // Creates an AVLTree with a nonempty root
     AVLTreeWithNode(Key key, Val val) : BSTWithNode{key, val}
     {}
     // inserts a Key Val pair in case Key is not present.  Return
@@ -128,13 +134,13 @@ private:
       }
     }
   };
+  // AVLTree with proper node type
   AVLTreeWithNode<AVLTreeNode> avlt;
 public:
-  // builds an empty AVLTree. Basically delegates all the work to BSTree
+  // builds an empty AVLTree
   AVLTree() : avlt{}
   {}
-  // Creates an AVLTree with a nonempty root.  Notice that we use the
-  // protected initializeRoot of BSTree to pass an allocated root node
+  // Creates an AVLTree with a nonempty root
   AVLTree(Key key, Val val) : avlt{key, val}
   {}
   // inserts a Key Val pair in case Key is not present.  Return
@@ -147,16 +153,18 @@ public:
   bool remove(Key key){
     return avlt.remove(key);
   }
+  // returns Val attached to Key.  In case Key is not present, returns
+  // nothing
   std::optional<Val> search(Key key){
     return avlt.search(key);
   }
   // returns Key Val pair whose Val corresponds to the maximum BSTree
-  // Key
+  // Key.  In case tree is empty, returns nothing
   std::optional<std::pair<Key, Val>> maxKey() const {
     return avlt.maxKey();
   }
   // returns Key Val pair whose Val corresponds to the minimum BSTree
-  // Key
+  // Key.  In case tree is empty, returns nothing
   std::optional<std::pair<Key, Val>> ninKey() const {
     return avlt.ninKey();
   }
