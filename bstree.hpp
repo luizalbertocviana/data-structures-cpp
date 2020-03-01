@@ -175,12 +175,17 @@ protected:
     }
     // searches for Key, returning the corresponding Value or nothing
     std::optional<Val> search(Key key) const {
+      // if tree is not empty ...
       if (root){
+        // ... we traverse the tree looking for key until an empty
+        // subtree is reached
         Node* curremtNoode = root.get();
         while (curremtNoode){
+          // either we find key ...
           if (key == curremtNoode->key){
             return curremtNoode->val;
           }
+          // ... or we go down accordingly
           else{
             if (key < curremtNoode->key){
               curremtNoode = curremtNoode->left.get();
@@ -190,8 +195,11 @@ protected:
             }
           }
         }
+        // if we exit the while loop, we have reached an empty
+        // subtree, so we return nothing
         return {};
       }
+      // we return nothing in case tree is empty
       else{
         return {};
       }
@@ -199,21 +207,29 @@ protected:
     // inserts Val attached to Key in case Key is not present
     // yet. Return value indicates whether insertion really took place
     bool insert(Key key, Val val){
+      // if tree is not empty ...
       if (root){
+        // we perform a traversal until we reach an empty subtree
         Node* currentNode = root.get();
         while (currentNode){
+          // if key is present, no insertion is made
           if (key == currentNode->key){
             return false;
           }
+          // otherwise we go down
           else{
             if (key < currentNode->key){
+              // either we recursively insert into a nonempty subtree
+              // ...
               if (currentNode->left){
                 currentNode = currentNode->left.get();
               }
+              // ... or we perform insertion in an empty subtree
               else{
                 currentNode->left = std::make_unique<Node>(key, val);
               }
             }
+            // the same goes for right descent
             else if (key > currentNode->key){
               if (currentNode->right){
                 currentNode = currentNode->right.get();
@@ -224,8 +240,10 @@ protected:
             }
           }
         }
+        // if the while has not returned, then insertion has occurred
         return true;
       }
+      // if tree is empty, we insert at root
       else{
         root = std::make_unique<Node>(key, val);
         return true;
@@ -243,6 +261,7 @@ protected:
 
         return true;
       }
+      // in case it is not, no removal takes place
       else{
         return false;
       }
@@ -264,7 +283,8 @@ private:
                                left{nullptr},
                                right{nullptr}
     {}
-    // returns Key Val pair whose Key is maximum
+    // returns Key Val pair whose Key is maximum.  We need this
+    // information on every subtree due to the removal algorithm
     std::pair<Key, Val> maxKey() const {
       if (right){
         return right->maxKey();
