@@ -54,7 +54,7 @@ private:
   };
   // updates height of node based on the hights of its children.
   // Returns true in case height has been updated
-  bool updateHeight(AVLTreeNode* node){
+  static bool updateHeight(AVLTreeNode* node){
     // get height of left and right subtrees
     int leftHeight  = node->left  ? node->left->height  : -1;
     int rightHeight = node->right ? node->right->height : -1;
@@ -71,7 +71,7 @@ private:
     }
   }
   // updates height of each node contained in path
-  void updateHeightsOnPath(std::stack<AVLTreeNode*> path){
+  static void updateHeightsOnPath(std::stack<AVLTreeNode*> path){
     // node to have height updated
     AVLTreeNode* currentNode = nullptr;
     // indicates whether last update really changed node height.
@@ -87,7 +87,6 @@ private:
       path.pop();
     }
   }
-
   // implementation of AVLTree
   template<typename Node>
   class AVLTreeWithNode : public BST::template BSTreeWithNode<Node>{
@@ -107,7 +106,10 @@ private:
     bool insert(Key key, Val val){
       bool hasInserted = BSTWithNode::insert(key, val);
       if (hasInserted){
-        // do avl stuff
+        // gets the nodes which have their subtrees modified
+        std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(key);
+        // updates height of affected nodes
+        updateHeightsOnPath(affectedPath);
       }
       
       return hasInserted;
@@ -155,7 +157,7 @@ public:
   }
   // returns Val attached to Key.  In case Key is not present, returns
   // nothing
-  std::optional<Val> search(Key key){
+  std::optional<Val> search(Key key) const {
     return avlt.search(key);
   }
   // returns Key Val pair whose Val corresponds to the maximum BSTree
