@@ -227,6 +227,7 @@ protected:
               // ... or we perform insertion in an empty subtree
               else{
                 currentNode->left = std::make_unique<Node>(key, val);
+                return true;
               }
             }
             // the same goes for right descent
@@ -236,12 +237,11 @@ protected:
               }
               else{
                 currentNode->right = std::make_unique<Node>(key, val);
+                return true;
               }
             }
           }
         }
-        // if the while has not returned, then insertion has occurred
-        return true;
       }
       // if tree is empty, we insert at root
       else{
