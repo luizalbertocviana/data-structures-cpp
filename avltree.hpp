@@ -123,7 +123,7 @@ private:
       if (leftBalanceFactor <= -1){
         rotateR(node);
       }
-      else if(leftBalanceFactor >= 1){
+      else{
         // left right rotation
       }
     }
@@ -133,7 +133,7 @@ private:
       if (rightBalanceFactor >= 1){
         // left rotation
       }
-      else if (rightBalanceFactor <= -1){
+      else{
         // right left rotation
       }
     }
