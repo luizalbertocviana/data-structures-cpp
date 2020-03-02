@@ -81,50 +81,58 @@ private:
       return false;
     }
   }
-  // updates height of each node contained in path
-  static void updateHeightsOnPath(std::stack<AVLTreeNode*> path){
-    // node to have height updated
-    AVLTreeNode* currentNode = nullptr;
-    // indicates whether last update really changed node height.
-    // Initial value is true so we can enter the while loop
-    bool hasChanged = true;
-    // while there are nodes to be updated
-    while (hasChanged && !path.empty()){
-      // gets a new node
-      currentNode = path.top();
-      // updates its height
-      hasChanged = updateHeight(currentNode);
-      // then discards its reference
-      path.pop();
-    }
-  }
   // rebalances a node
   static bool rebalanceNode(AVLTreeNode* node){
     // calculates balance factor
-    int balanceFactor = balanceFactor(node);
+    int nodeBalanceFactor = balanceFactor(node);
     // node is left-heavy
-    if (balanceFactor <= -2){
-      int leftBalanceFactor = balanceFactor(node->left);
+    if (nodeBalanceFactor <= -2){
+      int leftBalanceFactor = balanceFactor(node->left.get());
       if (leftBalanceFactor <= -1){
         // right rotation
       }
       else if(leftBalanceFactor >= 1){
         // left right rotation
       }
-      return true;
     }
     // node is right-heavy
-    else if (balanceFactor >= 2){
-      int rightBalanceFactor = balanceFactor(node->right);
+    else if (nodeBalanceFactor >= 2){
+      int rightBalanceFactor = balanceFactor(node->right.get());
       if (rightBalanceFactor >= 1){
         // left rotation
       }
       else if (rightBalanceFactor <= -1){
         // right left rotation
       }
-      return true;
     }
-    return false;
+    // we go up to the root
+    return true;
+  }
+  // the compiler will deduce what is Function for us
+  template<typename Function>
+  static void applyOnPath(Function func, std::stack<AVLTreeNode*> path){
+    // node to have height updated
+    AVLTreeNode* currentNode = nullptr;
+    // indicates whether last update really changed node height.
+    // Initial value is true so we can enter the while loop
+    bool keepGoing = true;
+    // while there are nodes to be visited and we need to keep going
+    while (keepGoing && !path.empty()){
+      // gets a new node
+      currentNode = path.top();
+      // apply function
+      keepGoing = func(currentNode);
+      // then discards its reference
+      path.pop();
+    }
+  }
+  // does the necessary height updates for nodes on path
+  static void updateHeightsOnPath(std::stack<AVLTreeNode*> path){
+    applyOnPath(updateHeight, path);
+  }
+  // rebalances each node on path
+  static void rebalanceNodesOnPath(std::stack<AVLTreeNode*> path){
+    applyOnPath(rebalanceNode, path);
   }
   // implementation of AVLTree
   template<typename Node>
@@ -143,13 +151,16 @@ private:
     // inserts a Key Val pair in case Key is not present.  Return
     // indicates whether insertion occurred
     bool insert(Key key, Val val){
+      // the actual insertion is made by BSTReeWithNode
       bool hasInserted = BSTWithNode::insert(key, val);
+      // if insertion really happened ...
       if (hasInserted){
-        // gets the nodes which have their subtrees modified
+        // ... gets the nodes which have their subtrees modified
         std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(key);
         // updates height of affected nodes
         updateHeightsOnPath(affectedPath);
         // rebalance each affected node
+        rebalanceNodesOnPath(affectedPath);
       }
       
       return hasInserted;
@@ -165,8 +176,10 @@ private:
         std::optional<Key> parentKey = BSTWithNode::removeExistingKey(key);
         if (parentKey){
           std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(*parentKey);
-
-          // do avl stuff
+          // updates height of affected nodes
+          updateHeightsOnPath(affectedPath);
+          // rebalance each affected node
+          rebalanceNodesOnPath(affectedPath);
         }
         return true;
       }
