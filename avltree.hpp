@@ -56,6 +56,7 @@ private:
       }
     }
   };
+  // returns heights of left and right subtrees
   static std::pair<int, int> childrenHeights(const AVLTreeNode* node){
     // get height of left and right subtrees
     int leftHeight  = node->left  ? node->left->height  : -1;
@@ -63,6 +64,7 @@ private:
 
     return std::make_pair(leftHeight, rightHeight);
   }
+  // calculates balance factor of a given node
   static int balanceFactor(const AVLTreeNode* node){
     auto[leftHeight, rightHeight] = childrenHeights(node);
     #ifdef debug
@@ -83,6 +85,7 @@ private:
     #endif
     node->height = newHeight;
   }
+  // performs a simple right rotation on node
   static void rotateR(AVLTreeNode* node){
     #ifdef debug
     std::cout << "performing right rotation" << std::endl;
@@ -91,7 +94,7 @@ private:
     std::unique_ptr<AVLTreeNode> subtreeLL = std::move(node->left->left);
     std::unique_ptr<AVLTreeNode> subtreeLR = std::move(node->left->right);
     std::unique_ptr<AVLTreeNode> subtreeR  = std::move(node->right);
-    // then we save the contents of moving nodes
+    // then we save the contents of the moving nodes
     std::pair<Key, Val> nodeContent      = std::make_pair(node->key, node->val);
     std::pair<Key, Val> leftChildContent = std::make_pair(node->left->key, node->left->val);
     // left child becomes node
@@ -135,7 +138,7 @@ private:
       }
     }
   }
-  // the compiler will deduce what is Function for us
+  // the compiler will deduce what Function is
   template<typename Function>
   static void applyOnPath(Function func, std::stack<AVLTreeNode*> path){
     // node to have function applied on
@@ -152,6 +155,7 @@ private:
   }
   // does the necessary height updates for nodes on path
   static void updateHeightsOnPath(std::stack<AVLTreeNode*> path){
+    // notice how we do not need to specify Function
     applyOnPath(updateHeight, path);
   }
   // rebalances each node on path
