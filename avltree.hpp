@@ -198,6 +198,9 @@ private:
     // removes key in case it is present.  Return value indicates
     // whether removal has occurred
     bool remove(Key key){
+      #ifdef debug
+      std::cout << "removing node " << key << std::endl;
+      #endif
       // first we verify if key is present
       bool hasKey = BSTWithNode::search(key);
       // in case it is, removal will occurr
