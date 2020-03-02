@@ -248,6 +248,8 @@ protected:
         root = std::make_unique<Node>(key, val);
         return true;
       }
+      // this line should not be reached
+      return true;
     }
     // removes Key and corresponding attached Val. Return value
     // indicates whether removal really took place
