@@ -9,6 +9,9 @@
 #include <stack>
 // we are going to inherit from BSTree
 #include <bstree.hpp>
+#ifdef debug
+#include <iostream>
+#endif
 // AVLTree is a subclass of BSTree (under the same type parameters)
 template<typename Key, typename Val>
 class AVLTree : public BSTree<Key, Val>{
@@ -61,7 +64,9 @@ private:
   }
   static int balanceFactor(const AVLTreeNode* node){
     auto[leftHeight, rightHeight] = childrenHeights(node);
-
+    #ifdef debug
+    std::cout << "balanceFactor of node " << node->key << " is " << (rightHeight - leftHeight) << std::endl;
+    #endif
     return rightHeight - leftHeight;
   }
   // updates height of node based on the hights of its children.
@@ -81,15 +86,39 @@ private:
       return false;
     }
   }
+  static void rotateR(AVLTreeNode* node){
+    #ifdef debug
+    std::cout << "performing right rotation\n";
+    #endif
+    // first we set aside all the moving subtrees
+    std::unique_ptr<AVLTreeNode> subtreeLL = std::move(node->left->left);
+    std::unique_ptr<AVLTreeNode> subtreeLR = std::move(node->left->right);
+    std::unique_ptr<AVLTreeNode> subtreeR  = std::move(node->right);
+    // then we save the contents of moving nodes
+    std::pair<Key, Val> nodeContent      = std::make_pair(node->key, node->val);
+    std::pair<Key, Val> leftChildContent = std::make_pair(node->left->key, node->left->val);
+    // left child becomes node
+    node->key = leftChildContent.first;
+    node->val = leftChildContent.second;
+    // node becomes the right child
+    node->right = std::make_unique<AVLTreeNode>(nodeContent.first, nodeContent.second);
+    // finally we rearrange the moving subtrees
+    node->left         = std::move(subtreeLL);
+    node->right->left  = std::move(subtreeLR);
+    node->right->right = std::move(subtreeR);
+  }
   // rebalances a node
   static bool rebalanceNode(AVLTreeNode* node){
+    #ifdef debug
+    std::cout << "rebalancing node " << node->key << std::endl;
+    #endif
     // calculates balance factor
     int nodeBalanceFactor = balanceFactor(node);
     // node is left-heavy
     if (nodeBalanceFactor <= -2){
       int leftBalanceFactor = balanceFactor(node->left.get());
       if (leftBalanceFactor <= -1){
-        // right rotation
+        rotateR(node);
       }
       else if(leftBalanceFactor >= 1){
         // left right rotation
