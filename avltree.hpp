@@ -9,6 +9,7 @@
 #include <stack>
 // we are going to inherit from BSTree
 #include <bstree.hpp>
+// if we are debugging, import printing facilities
 #ifdef debug
 #include <iostream>
 #endif
