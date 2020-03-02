@@ -65,30 +65,26 @@ private:
   static int balanceFactor(const AVLTreeNode* node){
     auto[leftHeight, rightHeight] = childrenHeights(node);
     #ifdef debug
+    std::cout << "height of node " << node->key << " is " << node->height << std::endl;
     std::cout << "balanceFactor of node " << node->key << " is " << (rightHeight - leftHeight) << std::endl;
     #endif
     return rightHeight - leftHeight;
   }
   // updates height of node based on the hights of its children.
   // Returns true in case height has been updated
-  static bool updateHeight(AVLTreeNode* node){
+  static void updateHeight(AVLTreeNode* node){
     // get height of left and right subtrees
     auto[leftHeight, rightHeight] = childrenHeights(node);
     // calculates new height
     unsigned int newHeight = std::max(leftHeight, rightHeight) + 1;
-    // if height has changed ...
-    if (newHeight != node->height){
-      node->height = newHeight;
-
-      return true;
-    }
-    else{
-      return false;
-    }
+    #ifdef debug
+    std::cout << "new height of node " << node->key << " is " << newHeight << std::endl;
+    #endif
+    node->height = newHeight;
   }
   static void rotateR(AVLTreeNode* node){
     #ifdef debug
-    std::cout << "performing right rotation\n";
+    std::cout << "performing right rotation" << std::endl;
     #endif
     // first we set aside all the moving subtrees
     std::unique_ptr<AVLTreeNode> subtreeLL = std::move(node->left->left);
@@ -102,13 +98,16 @@ private:
     node->val = leftChildContent.second;
     // node becomes the right child
     node->right = std::make_unique<AVLTreeNode>(nodeContent.first, nodeContent.second);
-    // finally we rearrange the moving subtrees
+    // finally we rearrange the moving subtrees ...
     node->left         = std::move(subtreeLL);
     node->right->left  = std::move(subtreeLR);
     node->right->right = std::move(subtreeR);
+    // ... and update heights on the affected nodes
+    updateHeight(node->right.get());
+    updateHeight(node);
   }
   // rebalances a node
-  static bool rebalanceNode(AVLTreeNode* node){
+  static void rebalanceNode(AVLTreeNode* node){
     #ifdef debug
     std::cout << "rebalancing node " << node->key << std::endl;
     #endif
@@ -134,23 +133,18 @@ private:
         // right left rotation
       }
     }
-    // we go up to the root
-    return true;
   }
   // the compiler will deduce what is Function for us
   template<typename Function>
   static void applyOnPath(Function func, std::stack<AVLTreeNode*> path){
-    // node to have height updated
+    // node to have function applied on
     AVLTreeNode* currentNode = nullptr;
-    // indicates whether last update really changed node height.
-    // Initial value is true so we can enter the while loop
-    bool keepGoing = true;
-    // while there are nodes to be visited and we need to keep going
-    while (keepGoing && !path.empty()){
+    // while there are nodes to be visited
+    while (!path.empty()){
       // gets a new node
       currentNode = path.top();
       // apply function
-      keepGoing = func(currentNode);
+      func(currentNode);
       // then discards its reference
       path.pop();
     }
@@ -180,12 +174,18 @@ private:
     // inserts a Key Val pair in case Key is not present.  Return
     // indicates whether insertion occurred
     bool insert(Key key, Val val){
+      #ifdef debug
+      std::cout << "inserting key " << key << std::endl;
+      #endif
       // the actual insertion is made by BSTReeWithNode
       bool hasInserted = BSTWithNode::insert(key, val);
       // if insertion really happened ...
       if (hasInserted){
         // ... gets the nodes which have their subtrees modified
         std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(key);
+        #ifdef debug
+        std::cout << "element on top of path is " << affectedPath.top()->key << std::endl;
+        #endif
         // updates height of affected nodes
         updateHeightsOnPath(affectedPath);
         // rebalance each affected node
