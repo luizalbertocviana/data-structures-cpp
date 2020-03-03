@@ -73,8 +73,7 @@ private:
     #endif
     return rightHeight - leftHeight;
   }
-  // updates height of node based on the hights of its children.
-  // Returns true in case height has been updated
+  // updates height of node based on the hights of its children
   static void updateHeight(AVLTreeNode* node){
     // get height of left and right subtrees
     auto[leftHeight, rightHeight] = childrenHeights(node);
