@@ -137,7 +137,8 @@ private:
       }
     }
   }
-  // the compiler will deduce what Function is
+  // the compiler will deduce what Function is.  Applies func to each
+  // node on path
   template<typename Function>
   static void applyOnPath(Function func, std::stack<AVLTreeNode*> path){
     // node to have function applied on
