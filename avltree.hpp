@@ -7,12 +7,14 @@
 #include <optional>
 // stack type
 #include <stack>
-// we are going to inherit from BSTree
-#include <bstree.hpp>
-// if we are debugging, import printing facilities
 #ifdef debug
 #include <iostream>
 #endif
+
+// we are going to inherit from BSTree
+#include <bstree.hpp>
+
+// if we are debugging, import printing facilities
 // AVLTree is a subclass of BSTree (under the same type parameters)
 template<typename Key, typename Val>
 class AVLTree : public BSTree<Key, Val>{
@@ -120,20 +122,20 @@ private:
     if (nodeBalanceFactor <= -2){
       int leftBalanceFactor = balanceFactor(node->left.get());
       if (leftBalanceFactor <= -1){
-        rotateR(node);
+        // which rotation?
       }
       else{
-        // left right rotation
+        // which rotation?
       }
     }
     // node is right-heavy
     else if (nodeBalanceFactor >= 2){
       int rightBalanceFactor = balanceFactor(node->right.get());
       if (rightBalanceFactor >= 1){
-        // left rotation
+        // which rotation?
       }
       else{
-        // right left rotation
+        // which rotation?
       }
     }
   }
@@ -186,15 +188,7 @@ private:
       bool hasInserted = BSTWithNode::insert(key, val);
       // if insertion really happened ...
       if (hasInserted){
-        // ... gets the nodes which have their subtrees modified
-        std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(key);
-        #ifdef debug
-        std::cout << "element on top of path is " << affectedPath.top()->key << std::endl;
-        #endif
-        // updates height of affected nodes
-        updateHeightsOnPath(affectedPath);
-        // rebalance each affected node
-        rebalanceNodesOnPath(affectedPath);
+        // do avl stuff
       }
       
       return hasInserted;
@@ -212,11 +206,7 @@ private:
         // performs removal, and returns parent key in case root was not deleted
         std::optional<Key> parentKey = BSTWithNode::removeExistingKey(key);
         if (parentKey){
-          std::stack<AVLTreeNode*> affectedPath = BSTWithNode::pathToExistingKey(*parentKey);
-          // updates height of affected nodes
-          updateHeightsOnPath(affectedPath);
-          // rebalance each affected node
-          rebalanceNodesOnPath(affectedPath);
+          // do avl stuff
         }
         return true;
       }
