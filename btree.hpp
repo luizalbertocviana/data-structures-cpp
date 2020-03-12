@@ -32,20 +32,31 @@ private:
              val{},
              child{}
     {}
+    // returns whether page is full
     bool isFull(){
       return numberKeys == 2*t - 1;
     }
+    // searches for Key. In case it is not present, returns nothing
     std::optional<Val> search(Key k){
       unsigned int i = 0;
+      // we go right searching got k
       while (i < numberKeys && k > key[i]){
         i++;
       }
+      // now either key[i - 1] < k <= key[i] or i > numberKeys - 1
+      // if k was found, we return the corresponding value
       if (i < numberKeys && k == key[i]){
         return val[i];
       }
+      // now either key[i - 1] < k < key[i] or i > numberKeys - 1.  In
+      // either case, we need to either go down or report an failed
+      // search
+      // if this page is a leaf, there is nowhere to go down, and the
+      // search fails
       else if (leaf){
         return {};
       }
+      // otherwise, we recurse into the appropriate child
       else{
         return child[i]->search(k);
       }
@@ -121,10 +132,10 @@ private:
             key[i + 1] = key[i];
             val[i + 1] = val[i];
           }
+          #ifdef debug
+          std::cout << "moved some key val pairs to the right" << std::endl;
+          #endif
         }
-        #ifdef debug
-        std::cout << "moved some key val pairs to the right" << std::endl;
-        #endif
         // ... and put it right there
         key[childIndex] = splittingChild->key[t - 1];
         val[childIndex] = splittingChild->val[t - 1];
