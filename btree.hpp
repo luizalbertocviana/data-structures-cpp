@@ -39,7 +39,7 @@ private:
     // searches for Key. In case it is not present, returns nothing
     std::optional<Val> search(Key k){
       unsigned int i = 0;
-      // we go right searching got k
+      // we go right searching for k
       while (i < numberKeys && k > key[i]){
         i++;
       }
