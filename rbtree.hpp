@@ -62,7 +62,7 @@ private:
     {}
     // builds a tree with a nonempty root
     RBTreeWithNode(Key key, Val val) : BSTWithNode{key, val}{
-      // root is red. This need to be corrected
+      // root is red. This needs to be corrected
     }
     // inserts a Key Val pair into the tree. Return value indicates
     // whether insertion occurred
