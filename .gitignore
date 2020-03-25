@@ -12,3 +12,4 @@
 /btree_test
 /btree_test.cpp~
 *.cpp#
+/#rbtree.hpp#
