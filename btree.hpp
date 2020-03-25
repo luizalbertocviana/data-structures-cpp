@@ -148,6 +148,39 @@ private:
         return false;
       }
     }
+
+    bool rotateKeysR(unsigned int keyIndex){
+      if (keyIndex < numberKeys && !leaf && child[keyIndex]->numberKeys > t - 1 && !child[keyIndex + 1]->isFull()){
+        // do key rotation
+
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    bool rotateKeysL(unsigned int keyIndex){
+      if (keyIndex < numberKeys && !leaf && child[keyIndex + 1]->numberKeys > t - 1 && !child[keyIndex]->isFull()){
+        // do key rotation
+
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    bool mergeSiblingsWithKey(unsigned int keyIndex){
+      if (keyIndex < numberKeys && child[keyIndex]->numberKeys == t - 1 && child[keyIndex + 1]->numberKeys == t - 1){
+        // do the merging
+
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
   };
   // inserts key val pair on nonfull page
   static void insertOnNonfullPage(Page* page, Key key, Val val){
