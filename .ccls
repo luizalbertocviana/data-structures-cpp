@@ -1,0 +1,5 @@
+g++
+-std=c++17
+-I.
+-Wall
+-Wextra
