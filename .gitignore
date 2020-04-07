@@ -13,3 +13,14 @@
 /btree_test.cpp~
 *.cpp#
 /#rbtree.hpp#
+/.ccls-cache/
+/.ccls~
+/linked_list.hpp~
+/linked_list_test
+/linked_list_test.cpp~
+/queue.hpp~
+/queue_test
+/queue_test.cpp~
+/stack.hpp~
+/stack_test
+/stack_test.cpp~
