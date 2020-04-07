@@ -1,3 +1,4 @@
+#pragma once
 // smart pointers
 #include <memory>
 // optional type
