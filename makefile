@@ -10,7 +10,7 @@ COMPILING_OPTIONS	= -c -g -std=$(STD) $(INCLUDE_DIRS) -Wall -Wextra
 LINKING_OPTIONS		= -g -std=$(STD) -Wall -Wextra
 
 # list of project headers
-HEADERS			= bstree.hpp avltree.hpp rbtree.hpp btree.hpp linked_list.hpp stack.hpp queue.hpp
+HEADERS			= bstree.hpp avltree.hpp rbtree.hpp btree.hpp linked_list.hpp stack.hpp queue.hpp sorting.hpp
 
 # these variables define one tester program for each header
 TESTERS_SRC		= $(HEADERS:.hpp=_test.cpp)
