@@ -67,6 +67,13 @@ void mergesortTest(){
   #endif
   
   assert(vec3 == vec2);
+
+  std::vector<std::string> vec4{"ccc", "bbb", "aaa"};
+  std::vector<std::string> vec5{"aaa", "bbb", "ccc"};
+
+  auto vec6 = mergesort(vec4);
+
+  assert(vec6 == vec5);
 }
 
 int main(){
