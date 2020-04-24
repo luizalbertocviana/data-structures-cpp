@@ -28,8 +28,9 @@ void insertionSort(Collection& vec){
   }
 }
 
-std::vector<int> merge(const std::vector<int>& vecA, const std::vector<int>& vecB){
-  std::vector<int> result{};
+template<typename Collection>
+Collection merge(const Collection& vecA, const Collection& vecB){
+  Collection result{};
 
   unsigned long i = 0;
   unsigned long j = 0;
@@ -61,9 +62,10 @@ std::vector<int> merge(const std::vector<int>& vecA, const std::vector<int>& vec
   return result;
 }
 
-std::pair<std::vector<int>, std::vector<int>> split(const std::vector<int>& vec){
-  std::vector<int> splitA{};
-  std::vector<int> splitB{};
+template<typename Collection>
+std::pair<Collection, Collection> split(const Collection& vec){
+  Collection splitA{};
+  Collection splitB{};
 
   bool insertOnA = true;
 
@@ -83,7 +85,8 @@ std::pair<std::vector<int>, std::vector<int>> split(const std::vector<int>& vec)
   return std::make_pair(splitA, splitB);
 }
 
-std::vector<int> mergesort(const std::vector<int>& vec){
+template<typename Collection>
+Collection mergesort(const Collection& vec){
   if (vec.size() > 1){
     auto[splitA, splitB] = split(vec);
 
