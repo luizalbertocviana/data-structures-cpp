@@ -102,6 +102,7 @@ int main(){
   bubbleSortTest();
   insertionSortTest();
   mergesortTest();
+  quicksortTest();
 
   return 0;
 }
