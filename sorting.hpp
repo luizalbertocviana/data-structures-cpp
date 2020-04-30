@@ -99,3 +99,23 @@ Collection mergesort(const Collection& vec){
     return vec;
   }
 }
+
+template<typename Collection>
+void quicksort(Collection& vec, unsigned long start, unsigned long end){
+  if (end - start > 1){
+    unsigned long pivot = end - 1;
+    unsigned long i = start;
+
+    for (unsigned long j = start; j < pivot; j++){
+      if (vec[j] <= vec[pivot]){
+        std::swap(vec[j], vec[i]);
+        i++;
+      }
+    }
+
+    std::swap(vec[i], vec[pivot]);
+
+    quicksort(vec, start, i);
+    quicksort(vec, i + 1, end);
+  }
+}
