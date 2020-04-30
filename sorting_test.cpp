@@ -54,6 +54,28 @@ void insertionSortTest(){
   assert(vec3 == vec4);
 }
 
+void quicksortTest(){
+  std::vector<int> vec{2, 1, 4, 3, 7, 4, 6, 4, 9};
+  std::vector<int> vec2{1, 2, 3, 4, 4, 4, 6, 7, 9};
+
+  quicksort(vec, 0, vec.size());
+
+  #ifdef debug
+  for (auto e : vec){
+    std::cout << e << std::endl;
+  }
+  #endif
+  
+  assert(vec == vec2);
+
+  std::vector<std::string> vec3{"ccc", "bbb", "aaa"};
+  std::vector<std::string> vec4{"aaa", "bbb", "ccc"};
+  
+  quicksort(vec3, 0, vec3.size());
+
+  assert(vec3 == vec4);
+}
+
 void mergesortTest(){
   std::vector<int> vec{2, 1, 4, 3, 7, 4, 6, 4, 9};
   std::vector<int> vec2{1, 2, 3, 4, 4, 4, 6, 7, 9};
