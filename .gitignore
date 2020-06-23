@@ -27,3 +27,4 @@
 /sorting.hpp~
 /sorting_test
 /sorting_test.cpp~
+*.o
