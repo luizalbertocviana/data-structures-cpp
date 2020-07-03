@@ -150,19 +150,4 @@ public:
   }
 };
 
-void f(){
-  BSTree<int, int> bst {};
-
-  bst.insert(2,2);
-
-  bst.search(2);
-
-  bst.max_key();
-  bst.min_key();
-
-  bst.remove(2);
-
-  bst.empty();
-}
-
 #endif
