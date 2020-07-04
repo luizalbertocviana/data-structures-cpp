@@ -107,27 +107,41 @@ class BSTree{
     }
   }
 protected:
+  static std::optional<Key> remove_(node_ptr& node, const Key& key){
+    auto recurse_into {[&node](node_ptr& n, const Key& key) {
+                         auto opt_key = remove_(n, key);
+
+                         return opt_key ? opt_key : node->key;
+                       }};
+
+    if (node){
+      if (key < node->key){
+        return recurse_into(node->left, key);
+      }
+      else if (key > node->key){
+        return recurse_into(node->right, key);
       }
       else{
         if (node->left && node->right){
           auto[max_left_key, max_left_val] {*max_key_(node->left)};
 
-          remove_(node->left, max_left_key);
-
           node->key = max_left_key;
           node->val = max_left_val;
+
+          return recurse_into(node->left, max_left_key);
         }
         else{
           node = std::move(node->left ? node->left : node->right);
-        }
 
-        return true;
+          return {};
+        }
       }
     }
     else{
-      return false;
+      return {};
     }
   }
+
 public:
   BSTree() : root_{nullptr}
   {}
