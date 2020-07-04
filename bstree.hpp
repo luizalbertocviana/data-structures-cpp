@@ -36,14 +36,14 @@ class BSTree{
 
   static std::optional<Val> search_(const node_ptr& node, const Key& key){
     if (node){
-      if (key == node->key){
-        return node->val;
-      }
-      else if (key < node->key){
+      if (key < node->key){
         return search_(node->left, key);
       }
-      else{
+      else if (key > node->key){
         return search_(node->right, key);
+      }
+      else{
+        return node->val;
       }
     }
     else{
