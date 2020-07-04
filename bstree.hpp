@@ -171,7 +171,7 @@ public:
   }
 
   bool remove(const Key& key){
-    return remove_(root_, key);
+    return remove_(root_, key) ? true : false;
   }
 };
 
