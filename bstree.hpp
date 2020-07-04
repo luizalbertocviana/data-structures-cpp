@@ -93,13 +93,20 @@ class BSTree{
     return deepest_key_(node.get(), [](const Node* n) {return n->left.get();});
   }
 
-  static bool remove_(node_ptr& node, const Key& key){
+  template<typename Function>
+  static void bottom_up_apply__(node_ptr& node, const Key& key, const Function& f){
     if (node){
       if (key < node->key){
-        return remove_(node->left, key);
+        bottom_up_apply__(node->left, key, f);
       }
       else if (key > node->key){
-        return remove_(node->right, key);
+        bottom_up_apply__(node->right, key, f);
+      }
+
+      f(node);
+    }
+  }
+protected:
       }
       else{
         if (node->left && node->right){
