@@ -32,8 +32,9 @@ struct BSTreeNode : public DataNode<Key, Val>, public BinaryNode<BSTreeNode<Key,
 
 template<typename Key, typename Val, typename Node = BSTreeNode<Key, Val>>
 class BSTree{
-  using node_ptr = std::unique_ptr<Node>;
-  
+protected:
+  using node_ptr = typename Node::node_ptr;
+private:
   node_ptr root_;
 
   static std::optional<Val> search_(const node_ptr& node, const Key& key){
