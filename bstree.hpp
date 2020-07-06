@@ -15,8 +15,10 @@ struct DataNode{
 
 template<typename Node>
 struct BinaryNode{
-  std::unique_ptr<Node> left;
-  std::unique_ptr<Node> right;
+  using node_ptr = std::unique_ptr<Node>;
+
+  node_ptr left;
+  node_ptr right;
 
   BinaryNode() : left{nullptr}, right{nullptr}
   {}
