@@ -109,10 +109,10 @@ private:
       f(node);
     }
   }
-protected:
-  static std::optional<Key> remove_(node_ptr& node, const Key& key){
+
+  static std::optional<Key> remove__(node_ptr& node, const Key& key){
     auto recurse_into {[&node](node_ptr& n, const Key& key) {
-                         auto opt_key = remove_(n, key);
+                         auto opt_key = remove__(n, key);
 
                          return opt_key ? opt_key : node->key;
                        }};
@@ -144,6 +144,10 @@ protected:
       return {};
     }
   }
+protected:
+  std::optional<Key> remove_(const Key& key){
+    return remove__(root_, key);
+  }
 
   template<typename Function>
   void bottom_up_aaply_(const Key& key, const Function& f){
@@ -174,7 +178,7 @@ public:
   }
 
   bool remove(const Key& key){
-    return remove_(root_, key) ? true : false;
+    return remove_(key) ? true : false;
   }
 };
 
