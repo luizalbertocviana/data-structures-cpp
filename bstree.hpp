@@ -9,7 +9,7 @@ struct DataNode{
   Key key;
   Val val;
 
-  DataNode(Key k, Val v) : key{k}, val{v}
+  DataNode(const Key& k, const Val& v) : key{k}, val{v}
   {}
 };
 
@@ -24,7 +24,7 @@ struct BinaryNode{
 
 template<typename Key, typename Val>
 struct BSTreeNode : public DataNode<Key, Val>, public BinaryNode<BSTreeNode<Key, Val>>{
-  BSTreeNode(Key key, Val val) : DataNode<Key, Val>{key, val}, BinaryNode<BSTreeNode<Key, Val>>{}
+  BSTreeNode(const Key& key, const Val& val) : DataNode<Key, Val>{key, val}, BinaryNode<BSTreeNode<Key, Val>>{}
   {}
 };
 
