@@ -80,20 +80,20 @@ class AVLTree : public BSTree<Key, Val, AVLTreeNode<Key, Val>>{
       height_type left_bf {balance_factor_(node->left)};
 
       if (left_bf <= -1){
-        
+        rotate_r_(node);
       }
       else{
-        
+        rotate_lr_(node);
       }
     }
     else if (node_bf >= 2){
       height_type right_bf {balance_factor_(node->right)};
 
       if (right_bf >= 1){
-        
+        rotate_l_(node);
       }
       else{
-        
+        rotate_rl_(node);
       }
     }
   }
