@@ -97,6 +97,11 @@ class AVLTree : public BSTree<Key, Val, AVLTreeNode<Key, Val>>{
       }
     }
   }
+
+  static void maintain_node_(node_ptr& node){
+    update_height_(node);
+    balance_node_(node);
+  }
 public:
   AVLTree() : BST{}
   {}
