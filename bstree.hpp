@@ -182,7 +182,9 @@ public:
   }
 
   bool remove(const Key& key){
-    return remove_(key) ? true : false;
+    remove_(key);
+
+    return !contains(key);
   }
 };
 
