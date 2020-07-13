@@ -150,7 +150,7 @@ protected:
   }
 
   template<typename Function>
-  void bottom_up_aaply_(const Key& key, const Function& f){
+  void bottom_up_apply_(const Key& key, const Function& f){
     bottom_up_apply__(root_, key, f);
   }
 public:
