@@ -24,7 +24,7 @@ struct AVLTreeNode : public DataNode<Key, Val>,
 };
 
 template<typename Key, typename Val>
-class AVLTree : public BSTree<Key, Val, AVLTreeNode<Key, Val>>{
+class AVLTree : protected BSTree<Key, Val, AVLTreeNode<Key, Val>>{
   using BST         = BSTree<Key, Val, AVLTreeNode<Key, Val>>;
   using node_ptr    = typename BST::node_ptr;
   using height_type = long long;
