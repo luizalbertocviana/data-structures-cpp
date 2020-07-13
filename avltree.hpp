@@ -25,8 +25,8 @@ struct AVLTreeNode : public DataNode<Key, Val>,
 
 template<typename Key, typename Val>
 class AVLTree : public BSTree<Key, Val, AVLTreeNode<Key, Val>>{
-  using BSTree      = BSTree<Key, Val, AVLTreeNode<Key, Val>>;
-  using node_ptr    = typename BSTree::node_ptr;
+  using BST         = BSTree<Key, Val, AVLTreeNode<Key, Val>>;
+  using node_ptr    = typename BST::node_ptr;
   using height_type = long long;
 
   static height_type height_(const node_ptr& node){
@@ -98,14 +98,14 @@ class AVLTree : public BSTree<Key, Val, AVLTreeNode<Key, Val>>{
     }
   }
 public:
-  AVLTree() : BSTree{}
+  AVLTree() : BST{}
   {}
 
   bool insert(const Key& key, const Val& val){
-    bool has_inserted {BSTree::insert(key, val)};
+    bool has_inserted {BST::insert(key, val)};
 
     if (has_inserted){
-      
+      BST::bottom_up_apply_(key, maintain_node_);
     }
 
     return has_inserted;
