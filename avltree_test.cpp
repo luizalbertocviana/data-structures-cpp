@@ -2,6 +2,8 @@
 
 #include <avltree.hpp>
 
+#include <string>
+
 void test1(){
   #ifdef debug
   std::cout << "test 1" << std::endl;
