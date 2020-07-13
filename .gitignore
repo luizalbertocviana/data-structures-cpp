@@ -28,3 +28,4 @@
 /sorting_test
 /sorting_test.cpp~
 *.o
+/#bstree.hpp#
