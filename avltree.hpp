@@ -115,9 +115,14 @@ public:
 
     return has_inserted;
   }
+
+  bool remove(const Key& key){
+    if (auto parent_key {BST::remove_(key)}){
+      BST::bottom_up_apply_(*parent_key, maintain_node_);
+    }
+
+    return !BST::contains(key);
+  }
 };
-
-
-
 
 #endif
