@@ -1,12 +1,5 @@
 #include <cassert>
 
-// uncomment this to see some logging messages
-// #define debug
-
-#ifdef debug
-#include <iostream>
-#endif
-
 #include <avltree.hpp>
 
 void test1(){
