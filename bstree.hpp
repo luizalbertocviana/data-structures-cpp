@@ -173,6 +173,10 @@ public:
     return search_(root_, key);
   }
 
+  bool contains(const Key& key) const{
+    return search(key) ? true : false;
+  }
+
   bool insert(const Key& key, const Val& val){
     return insert_(root_, key, val);
   }
