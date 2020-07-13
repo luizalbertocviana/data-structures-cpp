@@ -117,14 +117,7 @@ public:
   }
 };
 
-void f(){
-  AVLTree<int, int> avltree {};
 
-  avltree.empty();
 
-  avltree.search(2);
-
-  avltree.insert(2, 2);
-}
 
 #endif
