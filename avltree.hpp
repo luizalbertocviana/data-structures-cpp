@@ -123,6 +123,12 @@ public:
 
     return !BST::contains(key);
   }
+
+  using BST::empty;
+  using BST::search;
+  using BST::contains;
+  using BST::max_key;
+  using BST::min_key;
 };
 
 #endif
