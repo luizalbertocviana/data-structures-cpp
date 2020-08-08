@@ -63,7 +63,7 @@ private:
     if (right < size_ && data_[right] > data_[largest]){
       largest = right;
     }
-    // if a child ahs more priority than i, swap them
+    // if a child has more priority than i, swap them
     if (largest != i){
       std::swap(data_[largest], data_[i]);
       // then adjust position of the moved parent, now located at
