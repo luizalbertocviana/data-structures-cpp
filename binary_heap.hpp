@@ -4,8 +4,6 @@
 #include <functional>
 // for contiguous memory management
 #include <vector>
-// alias for type used to represent priority values
-using priority_type = unsigned long;
 // A binary max heap assgning a priority to each Element
 template<typename Element, typename Comparator = std::greater<priority_type>>
 class BinaryMaxHeap{
