@@ -5,7 +5,7 @@
 // for contiguous memory management
 #include <vector>
 // A binary max heap assgning a priority to each Element
-template<typename Element, typename Comparator = std::greater<priority_type>>
+template<typename Element, typename priority_type = unsigned long, typename Comparator = std::greater<priority_type>>
 class BinaryMaxHeap{
 private:
   // static comparator used to determine which elements have more
@@ -139,5 +139,5 @@ public:
 };
 // analogous data structure where a lower priority value means higher
 // priority
-template<typename Element>
-using BinaryMinHeap = BinaryMaxHeap<Element, std::less<priority_type>>;
+template<typename Element, typename priority_type = unsigned long>
+using BinaryMinHeap = BinaryMaxHeap<Element, priority_type, std::less<priority_type>>;
