@@ -5,7 +5,9 @@
 // for contiguous memory management
 #include <vector>
 // A binary max heap assgning a priority to each Element
-template<typename Element, typename priority_type = unsigned long, typename Comparator = std::greater<priority_type>>
+template<typename Element,
+         typename priority_type = unsigned long,
+         typename Comparator    = std::greater<priority_type>>
 class BinaryMaxHeap{
 private:
   // static comparator used to determine which elements have more
