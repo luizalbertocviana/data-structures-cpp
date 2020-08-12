@@ -108,22 +108,22 @@ public:
       return {};
     }
     else{
-      // copy element at position 0, since it is about to be
+      // moves element at position 0, since it is about to be
       // overwritten
-      Element copy {data_[0].element};
+      Element moved {std::move(data_[0].element)};
       // overwrites heap root with the leaf of maximum valid index
-      data_[0] = data_[size_ - 1];
+      data_[0] = std::move(data_[size_ - 1]);
       // accounts for removal of one element
       --size_;
-      // adjust position of new root
+      // adjusts position of new root
       heapify_down_(0);
-      // then return copy of the extracted element
-      return copy;
+      // returns extracted element
+      return moved;
     }
   }
   // inserts element with priority
   void insert(priority_type priority, const Element& element){
-    // data might be using all its allocated space, so use push_back
+    // data_ might be using all its allocated space, so use push_back
     // to ensure reallocation (if needed)
     if (size_ == data_.size()){
       data_.push_back({priority, element});
@@ -133,7 +133,7 @@ public:
     else{
       data_[size_] = {priority, element};
     }
-    // account for insertion of element
+    // accounts for insertion of element
     ++size_;
     // adjusts position of newly inserted element
     heapify_up_(size_ - 1);
