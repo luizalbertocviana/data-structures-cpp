@@ -1,4 +1,5 @@
 #include <cassert>
+#include <string>
 
 // uncomment this to see some logging messages
 // #define debug

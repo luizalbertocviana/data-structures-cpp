@@ -3,14 +3,15 @@ COMPILER		= g++
 STD			= c++17
 
 # directories to look for .h and .hpp files (preceded by -I parameter)
-INCLUDE_DIRS		= -I.
+INCLUDE_DIRS		= .
 
 # compiler parameters for compiling and linking
-COMPILING_OPTIONS	= -c -g -std=$(STD) $(INCLUDE_DIRS) -Wall -Wextra
-LINKING_OPTIONS		= -g -std=$(STD) -Wall -Wextra
+INCLUDE_OPTIONS		= $(foreach dir, $(INCLUDE_DIRS), -I$(dir))
+LINKING_OPTIONS		= -g -std=$(STD) $(INCLUDE_OPTIONS) -Wall -Wextra
+COMPILING_OPTIONS	= -c $(LINKING_OPTIONS)
 
 # list of project headers
-HEADERS			= bstree.hpp avltree.hpp rbtree.hpp btree.hpp linked_list.hpp stack.hpp queue.hpp sorting.hpp
+HEADERS			= $(foreach dir, $(INCLUDE_DIRS), $(wildcard $(dir)/*.hpp))
 
 # these variables define one tester program for each header
 TESTERS_SRC		= $(HEADERS:.hpp=_test.cpp)

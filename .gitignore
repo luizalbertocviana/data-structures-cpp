@@ -29,3 +29,11 @@
 /sorting_test.cpp~
 *.o
 *.gch
+*.so
+*.i
+*.i
+/bstree.i~
+/#bstree.hpp#
+/binary_heap.hpp~
+/binary_heap_test
+/binary_heap_test.cpp~
