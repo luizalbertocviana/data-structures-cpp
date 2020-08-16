@@ -58,7 +58,7 @@ public:
   }
 };
 
-using Digraph = DigraphOn<SquareMatrix<char>>;
+using Digraph = DigraphOn<SquareMatrix<bool>>;
 
 template<typename Function>
 void depth_first_search(const Digraph& D, Digraph::size_type start, Function visitor){
