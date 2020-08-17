@@ -2,7 +2,7 @@
 // we will use a vector to store each element representative
 #include <vector>
 // A disjoint set implementation: each of n elements is uniquely
-// assgnied to a index between 0 and n - 1, and is initially
+// assigned to a index between 0 and n - 1, and is initially
 // represented by itself. Elements with a common representative can
 // therefore be seen as disjoint from other group of elements. This
 // way, each element starts in a unitary disjoint set
