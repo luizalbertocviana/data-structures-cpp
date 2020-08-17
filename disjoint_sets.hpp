@@ -1,10 +1,10 @@
 #pragma once
-// we will use a vector to store each element representative
+// we will use a vector to create an association between elements
 #include <vector>
 // A disjoint set implementation: each of n elements is uniquely
 // assigned to a index between 0 and n - 1, and is initially
 // represented by itself. Elements with a common representative can
-// therefore be seen as disjoint from other group of elements. This
+// therefore be seen as disjoint from other groups of elements. This
 // way, each element starts in a unitary disjoint set
 class DisjointSet{
 public:
