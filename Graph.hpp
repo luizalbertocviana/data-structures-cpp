@@ -104,4 +104,41 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
   }
 }
 
+template<typename MatrixType>
+class GraphOn : DigraphOn<MatrixType>{
+private:
+  using Digraph = DigraphOn<MatrixType>;
+public:
+  using size_type = typename Digraph::size_type;
+private:
+  static void adjust_endpoints_(size_type& u, size_type& v){
+    if (u > v){
+      std::swap(u, v);
+    }
+  }
+public:
+  GraphOn(size_type num_v) : Digraph{num_v}
+  {}
+
+  bool has_edge(size_type u, size_type v) const{
+    adjust_endpoints_(u, v);
+
+    return Digraph::has_edge(u, v);
+  }
+
+  bool add_edge(size_type u, size_type v){
+    adjust_endpoints_(u, v);
+
+    return Digraph::add_edge(u, v);
+  }
+
+  bool remove_edge(size_type u, size_type v){
+    adjust_endpoints_(u, v);
+
+    return Digraph::remove_edge(u, v);
+  }
+};
+
+using Graph = GraphOn<UpperTriangularMatrix<bool>>;
+
 #endif
