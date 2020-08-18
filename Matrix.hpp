@@ -208,7 +208,6 @@ private:
   using Data = Matrix<Type>;
 public:
   using size_type = typename Data::size_type;
-  using reference = typename Data::reference;
 private:
   Data data_;
 
@@ -244,12 +243,46 @@ public:
   reference at(size_type i, size_type j){
     if ( i <= j){
       auto[triangular_i, triangular_j] {index_(i, j)};
+  class reference{
+    using Parent = UpperTriangularMatrix<Type>;
 
-      return data_.at(triangular_i, triangular_j);
+    static constexpr const Type default_type_value {};
+
+    Parent& parent_;
+
+    size_type row_index_;
+    size_type col_index_;
+  public:
+    reference(Parent& parent, size_type row_index, size_type col_index)
+      : parent_{parent}, row_index_{row_index}, col_index_{col_index}
+    {}
+
+    operator Type() const{
+      if (row_index_ <= col_index_){
+        auto[triangular_i, triangular_j] {parent_.index_(row_index_, col_index_)};
+
+        return parent_.data_.at(triangular_i, triangular_j);
+      }
+      else{
+        return default_type_value;
+      }
     }
-    else{
-      return 0;
+
+    reference& operator=(Type&& value){
+      if (row_index_ <= col_index_){
+        auto[triangular_i, triangular_j] {parent_.index_(row_index_, col_index_)};
+
+        parent_.data_.at(triangular_i, triangular_j) = value;
+      }
+
+      return *this;
     }
+
+    reference& operator=(reference&& ref){
+      *this = ref;
+    }
+  };
+
   }
 };
 
