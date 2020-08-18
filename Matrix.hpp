@@ -209,11 +209,11 @@ private:
 public:
   using size_type = typename Data::size_type;
 private:
-  Data data_;
-
   size_type n_;
 
   size_type half_rows_;
+
+  Data data_;
 
   static size_type set_half_rows_(size_type n){
     if (n % 2 == 0){
@@ -237,7 +237,7 @@ public:
   const size_type& num_cols;
 
   UpperTriangularMatrix(size_type n)
-    : n_{n}, half_rows_{set_half_rows(n_)}, num_rows{n_}, num_cols{n_}, data_{half_rows_, n_ + 1}
+    : n_{n}, half_rows_{set_half_rows_(n_)}, data_{half_rows_, n_ + 1}, num_rows{n_}, num_cols{n_}
   {}
 
   class reference{
