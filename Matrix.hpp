@@ -240,9 +240,6 @@ public:
     : n_{n}, half_rows_{set_half_rows(n_)}, num_rows{n_}, num_cols{n_}, data_{half_rows_, n_ + 1}
   {}
 
-  reference at(size_type i, size_type j){
-    if ( i <= j){
-      auto[triangular_i, triangular_j] {index_(i, j)};
   class reference{
     using Parent = UpperTriangularMatrix<Type>;
 
@@ -283,6 +280,8 @@ public:
     }
   };
 
+  reference at(size_type i, size_type j){
+    return {*this, i, j};
   }
 };
 
