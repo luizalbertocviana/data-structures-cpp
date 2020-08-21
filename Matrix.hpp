@@ -287,6 +287,11 @@ public:
   reference at(size_type i, size_type j){
     return {*this, i, j};
   }
+
+  const_reference const_at(size_type i, size_type j) const{
+    return {*this, i, j};
+  }
+
 };
 
 template<typename Type>
