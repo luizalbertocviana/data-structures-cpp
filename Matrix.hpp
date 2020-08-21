@@ -234,16 +234,6 @@ private:
       return {(n_ - 1) - i, (n_ - 1) - j};
     }
   }
-public:
-  const size_type& num_rows;
-  const size_type& num_cols;
-
-  UpperTriangularMatrix(size_type n)
-    : n_{n}, half_rows_{set_half_rows_(n_)}, data_{half_rows_, n_ + 1}, num_rows{n_}, num_cols{n_}
-  {}
-
-  class reference{
-    using Parent = UpperTriangularMatrix<Type>;
 
   template<typename Parent>
   class reference_base{
@@ -283,6 +273,16 @@ public:
       *this = ref;
     }
   };
+public:
+  const size_type& num_rows;
+  const size_type& num_cols;
+
+  UpperTriangularMatrix(size_type n)
+    : n_{n}, half_rows_{set_half_rows_(n_)}, data_{half_rows_, n_ + 1}, num_rows{n_}, num_cols{n_}
+  {}
+
+  using reference       = reference_base<ThisType>;
+  using const_reference = reference_base<const ThisType>;
 
   reference at(size_type i, size_type j){
     return {*this, i, j};
