@@ -292,6 +292,11 @@ public:
     return {*this, i, j};
   }
 
+  UpperTriangularMatrix& operator=(Type&& e){
+    data_ = e;
+
+    return *this;
+  }
 };
 
 template<typename Type>
