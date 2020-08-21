@@ -105,7 +105,7 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
 }
 
 template<typename MatrixType>
-class GraphOn : DigraphOn<MatrixType>{
+class GraphOn : public DigraphOn<MatrixType>{
 private:
   using Digraph = DigraphOn<MatrixType>;
 public:
