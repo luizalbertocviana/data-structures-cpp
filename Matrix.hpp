@@ -245,6 +245,8 @@ public:
   class reference{
     using Parent = UpperTriangularMatrix<Type>;
 
+  template<typename Parent>
+  class reference_base{
     static constexpr const Type default_type_value {};
 
     Parent& parent_;
@@ -252,7 +254,7 @@ public:
     size_type row_index_;
     size_type col_index_;
   public:
-    reference(Parent& parent, size_type row_index, size_type col_index)
+    reference_base(Parent& parent, size_type row_index, size_type col_index)
       : parent_{parent}, row_index_{row_index}, col_index_{col_index}
     {}
 
@@ -260,14 +262,14 @@ public:
       if (row_index_ <= col_index_){
         auto[triangular_i, triangular_j] {parent_.index_(row_index_, col_index_)};
 
-        return parent_.data_.at(triangular_i, triangular_j);
+        return parent_.data_.const_at(triangular_i, triangular_j);
       }
       else{
         return default_type_value;
       }
     }
 
-    reference& operator=(Type&& value){
+    reference_base& operator=(Type&& value){
       if (row_index_ <= col_index_){
         auto[triangular_i, triangular_j] {parent_.index_(row_index_, col_index_)};
 
@@ -277,7 +279,7 @@ public:
       return *this;
     }
 
-    reference& operator=(reference&& ref){
+    reference_base& operator=(reference_base&& ref){
       *this = ref;
     }
   };
