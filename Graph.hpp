@@ -24,7 +24,7 @@ public:
   DigraphOn(size_type num_v)
     : data_{num_v}, num_verts_{num_v}, num_edges_{0}, num_verts{num_verts_}, num_edges{num_edges_}
   {
-    data_ = 0;
+    data_ = false;
   }
 
   bool has_edge(size_type u, size_type v) const{
