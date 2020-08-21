@@ -226,7 +226,7 @@ private:
     }
   }
 
-  std::pair<size_type, size_type> index_(size_type i, size_type j){
+  std::pair<size_type, size_type> index_(size_type i, size_type j) const{
     if (i < half_rows_){
       return {i, i + 1 + j};
     }
