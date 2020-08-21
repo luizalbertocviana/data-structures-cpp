@@ -205,6 +205,8 @@ public:
 template<typename Type>
 class UpperTriangularMatrix{
 private:
+  using ThisType = UpperTriangularMatrix<Type>;
+
   using Data = Matrix<Type>;
 public:
   using size_type = typename Data::size_type;
