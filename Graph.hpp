@@ -131,9 +131,8 @@ void depth_first_search(const Digraph<>& D, Digraph<>::size_type start, Function
     }
   }
 }
-// a class to represnet an undirected graph 
-template<typename MatrixType>
-class GraphOn : public DigraphOn<MatrixType>{
+// a class to represnet an undirected graph
+class Graph : public Digraph<UpperTriangularMatrix>{
 private:
   // alias for superclass
   using Digraph = DigraphOn<MatrixType>;
