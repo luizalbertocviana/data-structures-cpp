@@ -164,13 +164,13 @@ public:
   // adds edge between u and v
   bool add_edge(size_type u, size_type v){
     adjust_endpoints_(u, v);
-
+    // delegates all the work to the superclass
     return Digraph::add_edge(u, v);
   }
   // removes edge between u and v
   bool remove_edge(size_type u, size_type v){
     adjust_endpoints_(u, v);
-
+    // delegates all the work to the superclass
     return Digraph::remove_edge(u, v);
   }
 };
