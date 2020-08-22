@@ -7,8 +7,8 @@
 #include <stack>
 #include <vector>
 // a class to represent a directed graph represented with MatrixType
-template<typename MatrixType>
-class DigraphOn{
+template<template<typename Type> typename MatrixType = SquareMatrix>
+class Digraph{
 private:
   // alias for MatrixType
   using Data = MatrixType;
