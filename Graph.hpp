@@ -66,6 +66,8 @@ public:
     }
   }
 };
+// alias for avoiding an ugly sintax which would be needed when using
+// Digraph_ as function argument
 using Digraph = Digraph_<>;
 // performs a depth first search in D starting at vertex start. When a
 // vertex is visited, visitor is executed using visited vertex as argument
