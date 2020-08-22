@@ -133,13 +133,13 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
   }
 }
 // a class to represnet an undirected graph
-class Graph : public Digraph<UpperTriangularMatrix>{
+class Graph : public Digraph_<UpperTriangularMatrix>{
 private:
   // alias for superclass
-  using DG = Digraph<UpperTriangularMatrix>;
+  using Digraph = Digraph_<UpperTriangularMatrix>;
 public:
   // we use the same size_type as superclass
-  using size_type = typename DG::size_type;
+  using size_type = typename Digraph::size_type;
 private:
   // ensures u <= v, which allows us to use a compact representation
   // of the graph
@@ -150,26 +150,26 @@ private:
   }
 public:
   // builds an undirected graph with num_v vertices
-  Graph(size_type num_v) : DG{num_v}
+  Graph(size_type num_v) : Digraph{num_v}
   {}
   // determines whether there is an edge between u and v
   bool has_edge(size_type u, size_type v) const{
     // notice that this enforces the lack of direction in our representation
     adjust_endpoints_(u, v);
     // delegates all the work to the superclass
-    return DG::has_edge(u, v);
+    return Digraph::has_edge(u, v);
   }
   // adds edge between u and v
   bool add_edge(size_type u, size_type v){
     adjust_endpoints_(u, v);
 
-    return DG::add_edge(u, v);
+    return Digraph::add_edge(u, v);
   }
   // removes edge between u and v
   bool remove_edge(size_type u, size_type v){
     adjust_endpoints_(u, v);
 
-    return DG::remove_edge(u, v);
+    return Digraph::remove_edge(u, v);
   }
 };
 
