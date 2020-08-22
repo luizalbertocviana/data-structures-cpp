@@ -11,7 +11,7 @@ template<template<typename Type> typename MatrixType = SquareMatrix>
 class Digraph{
 private:
   // alias for MatrixType
-  using Data = MatrixType;
+  using Data = MatrixType<bool>;
 public:
   // we use the same size_type as Data
   using size_type = typename Data::size_type;
