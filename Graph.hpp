@@ -26,7 +26,7 @@ public:
   const size_type& num_verts;
   const size_type& num_edges;
   // builds a digraph with num_v vertices and no edges
-  DigraphOn(size_type num_v)
+  Digraph(size_type num_v)
     : data_{num_v}, num_verts_{num_v}, num_edges_{0}, num_verts{num_verts_}, num_edges{num_edges_}
   {
     data_ = false;
