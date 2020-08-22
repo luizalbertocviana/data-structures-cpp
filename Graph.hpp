@@ -100,7 +100,7 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
                               }
                             }
                             // As D.num_verts is not a valid index, we
-                            // return this to indicate that every
+                            // return it to indicate that every
                             // neighbor of i has already been found
                             return D.num_verts;
                           }};
