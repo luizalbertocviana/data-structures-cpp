@@ -8,7 +8,7 @@
 #include <vector>
 // a class to represent a directed graph represented with MatrixType
 template<template<typename Type> typename MatrixType = SquareMatrix>
-class Digraph{
+class Digraph_{
 private:
   // alias for MatrixType
   using Data = MatrixType<bool>;
@@ -26,7 +26,7 @@ public:
   const size_type& num_verts;
   const size_type& num_edges;
   // builds a digraph with num_v vertices and no edges
-  Digraph(size_type num_v)
+  Digraph_(size_type num_v)
     : data_{num_v}, num_verts_{num_v}, num_edges_{0}, num_verts{num_verts_}, num_edges{num_edges_}
   {
     data_ = false;
