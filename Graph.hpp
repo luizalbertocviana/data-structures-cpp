@@ -69,7 +69,7 @@ public:
 // performs a depth first search in D starting at vertex start. When a
 // vertex is visited, visitor is executed using visited vertex as argument
 template<typename Function>
-void depth_first_search(const Digraph& D, Digraph::size_type start, Function visitor){
+void depth_first_search(const Digraph<>& D, Digraph<>::size_type start, Function visitor){
   // we are going to use some colors to represent vertex status: white
   // vertices have not been found yet; gray vertices have been found
   // and are to be visited; black vertices have been visited
@@ -78,7 +78,7 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
   // vertex has been found
   std::vector<Color> color {D.num_verts, Color::white};
   // stack to control the order in which vertices should be visited
-  std::stack<Digraph::size_type> dfs {};
+  std::stack<Digraph<>::size_type> dfs {};
   // procedure to be executed when a vertex is found
   auto start_visit {[&dfs, &color](const auto i) {
                       // it is put in the stack
@@ -91,7 +91,7 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
   // procedure to explore vertices that were not found yet
   auto neighbor_to_visit {[&D, &color](const auto i) {
                             // for each vertex ...
-                            for (Digraph::size_type j {0}; j < D.num_verts; ++j){
+                            for (Digraph<>::size_type j {0}; j < D.num_verts; ++j){
                               // if vertex is reachable from i and has
                               // not been found yet, returns it
                               if (color[j] == Color::white && D.has_edge(i, j)){
