@@ -59,7 +59,7 @@ public:
     m.cols_ = 0;
   }
   // move assignment
-  reference operator=(Matrix&& m){
+  Matrix& operator=(Matrix&& m){
     data_ = std::move(m.data_);
     rows_ = std::move(m.rows_);
     cols_ = std::move(m.cols_);
