@@ -70,7 +70,8 @@ public:
 // Digraph_ as function argument
 using Digraph = Digraph_<>;
 // performs a depth first search in D starting at vertex start. When a
-// vertex is visited, visitor is executed using visited vertex as argument
+// vertex is visited, visitor is executed using visited vertex as
+// argument
 template<typename Function>
 void depth_first_search(const Digraph& D, Digraph::size_type start, Function visitor){
   // we are going to use some colors to represent vertex status: white
