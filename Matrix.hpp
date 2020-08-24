@@ -266,12 +266,11 @@ private:
     }
   }
   // every access to a lower triangle position will return this value
+  static constexpr const Type default_type_value {};
   // class to represent a reference to a position in our matrix. We
   // declare it as a template to get mutable and const references
   template<typename Parent>
   class reference_base{
-    static constexpr const Type default_type_value {};
-
     // matrix which this refers to
     Parent& parent_;
     // position of reference
