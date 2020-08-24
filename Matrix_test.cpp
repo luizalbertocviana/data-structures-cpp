@@ -42,6 +42,16 @@ void test_upper_triangular_matrix(){
   ut_m.at(2,3) = true;
 
   assert(ut_m.at(2,3) == true);
+
+  ut_m.at(2,3) = ut_m.at(3,3);
+
+  assert(ut_m.at(2,3) == false);
+
+  bool value {true};
+
+  ut_m.at(2,3) = value;
+
+  assert(ut_m.at(2,3) == true);
 }
 
 int main(){
