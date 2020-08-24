@@ -364,12 +364,7 @@ public:
   {}
   // returns reference to position (i, j)
   reference at(size_type i, size_type j){
-    if (i >= j){
-      return data_.at(j, i);
-    }
-    else{
-      return 0;
-    }
+    return data_.at(j, i);
   }
 };
 
