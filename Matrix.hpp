@@ -295,9 +295,8 @@ private:
         return default_type_value;
       }
     }
-
-    reference_base& operator=(Type&& value){
     // assigns value to reference position in parent matrix
+    reference_base& operator=(const Type& value){
       // if position is on upper triangle, it is mutable, so we assign
       // to it
       if (row_index_ <= col_index_){
