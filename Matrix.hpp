@@ -309,9 +309,9 @@ private:
       return *this;
     }
 
-    reference_base& operator=(reference_base&& ref){
       *this = ref;
     // assigns value of ref to reference position in parent matrix
+    reference_base& operator=(const reference_base& ref){
     }
   };
 public:
