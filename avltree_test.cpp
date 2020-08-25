@@ -1,19 +1,11 @@
 #include <cassert>
 #include <string>
 
-// uncomment this to see some logging messages
-// #define debug
-
-#ifdef debug
-#include <iostream>
-#endif
-
 #include <avltree.hpp>
 
+#include <string>
+
 void test1(){
-  #ifdef debug
-  std::cout << "test 1" << std::endl;
-  #endif
   AVLTree<int, std::string> avlt{};
 
   avlt.insert(4, "eita");
@@ -28,9 +20,6 @@ void test1(){
 }
 
 void test2(){
-  #ifdef debug
-  std::cout << "test 2" << std::endl;
-  #endif
   AVLTree<int, std::string> avlt{};
 
   avlt.insert(1, "eita");
@@ -45,9 +34,6 @@ void test2(){
 }
 
 void test3(){
-  #ifdef debug
-  std::cout << "test 3" << std::endl;
-  #endif
   AVLTree<int, std::string> avlt{};
 
   avlt.insert(3, "eita");

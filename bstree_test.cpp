@@ -8,7 +8,7 @@
 int main(){
   BSTree<int, std::string> bst{};
 
-  assert(bst.isEmpty());
+  assert(bst.empty());
 
   bst.insert(2, "hue");
   bst.insert(1, "eita");
@@ -20,7 +20,7 @@ int main(){
   assert(*bst.search(2) == "hue");
   assert(*bst.search(3) == "haha");
   assert(bst.search(4) == std::nullopt);
-  assert(!bst.isEmpty());
+  assert(!bst.empty());
 
   bst.remove(2);
   
@@ -28,7 +28,7 @@ int main(){
   assert(bst.search(2) == std::nullopt);
   assert(*bst.search(3) == "haha");
   assert(bst.search(4) == std::nullopt);
-  assert(!bst.isEmpty());
+  assert(!bst.empty());
 
   bst.remove(1);
 
@@ -36,7 +36,7 @@ int main(){
   assert(bst.search(2) == std::nullopt);
   assert(*bst.search(3) == "haha");
   assert(bst.search(4) == std::nullopt);
-  assert(!bst.isEmpty());
+  assert(!bst.empty());
 
   auto treeStr = *bst.search(3);
 
@@ -46,7 +46,7 @@ int main(){
   assert(bst.search(2) == std::nullopt);
   assert(bst.search(3) == std::nullopt);
   assert(bst.search(4) == std::nullopt);
-  assert(bst.isEmpty());
+  assert(bst.empty());
 
   std::vector<int> vec{4, 2, 1, 3, 6, 5, 7};
 
