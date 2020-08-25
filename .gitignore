@@ -43,3 +43,6 @@
 /disjoint_sets.hpp~
 /disjoint_sets_test.cpp~
 /disjoint_sets_test
+/#CMakeLists.txt#
+/CMakeLists.txt~
+/compile_commands.json
