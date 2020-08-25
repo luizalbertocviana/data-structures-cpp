@@ -1,5 +1,7 @@
 #include <cassert>
 
+#include <string>
+
 #include <linked_list.hpp>
 
 int main(){

@@ -1,6 +1,8 @@
 // assert macro
 #include <cassert>
 
+#include <string>
+
 // we are going to test this data structure
 #include <rbtree.hpp>
 
