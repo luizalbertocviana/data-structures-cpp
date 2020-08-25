@@ -8,7 +8,6 @@
 
 int main(){
   RBTree<int, std::string> rbtree{};
-  RBTree<int, std::string> rbtree2{1, "eita"};
   
   rbtree.insert(1, "eita");
 
