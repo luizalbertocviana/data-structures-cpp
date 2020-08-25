@@ -9,6 +9,10 @@ project(data-structures-cpp
   DESCRIPTION "classical data structures implemented in C++ for lecturing purposes"
   LANGUAGES CXX)
 
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+endif()
+
 set(default_build_type "Release")
 
 set(CMAKE_CXX_STANDARD 17)
@@ -29,4 +33,6 @@ add_subdirectory(rbtree)
 add_subdirectory(sorting)
 add_subdirectory(stack)
 
-add_subdirectory(tests)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
