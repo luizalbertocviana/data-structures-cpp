@@ -59,3 +59,13 @@
 /sorting/CMakeLists.txt~
 /stack/CMakeLists.txt~
 /tests/CMakeLists.txt~
+/CMakeLists.txt~
+/Matrix_test.cpp~
+/binary_heap.hpp~
+/binary_heap_test.cpp~
+/bstree.i~
+/bstree.so
+/build/
+/compile_commands.json
+/disjoint_sets.hpp~
+/disjoint_sets_test.cpp~

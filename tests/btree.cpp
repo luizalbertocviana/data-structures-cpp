@@ -1,6 +1,8 @@
 #include <cassert>
 #include <string>
 
+#include <string>
+
 // #define debug
 
 #include <btree.hpp>
