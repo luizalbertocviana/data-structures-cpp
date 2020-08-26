@@ -151,6 +151,19 @@ private:
       std::swap(u, v);
     }
   }
+
+  template<typename Method>
+  bool adjust_and_call_(Method method, size_type u, size_type v){
+    adjust_endpoints_(u, v);
+
+    return (this->*method) (u, v);
+  }
+  template<typename Method>
+  bool adjust_and_call_(Method method, size_type u, size_type v) const{
+    adjust_endpoints_(u, v);
+
+    return (this->*method) (u, v);
+  }
 public:
   // builds an undirected graph with num_v vertices
   Graph(size_type num_v) : Digraph{num_v}
