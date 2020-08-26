@@ -135,7 +135,7 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
     }
   }
 }
-// a class to represnet an undirected graph
+// a class to represent an undirected graph
 class Graph : public Digraph_<UpperTriangularMatrix>{
 private:
   // alias for superclass
