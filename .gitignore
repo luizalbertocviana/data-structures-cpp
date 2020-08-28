@@ -46,3 +46,7 @@
 /#CMakeLists.txt#
 /CMakeLists.txt~
 /compile_commands.json
+/#Graph.hpp#
+/WeightedGraph_test.cpp~
+/WeightedGraph.hpp~
+/WeightedGraph_test
