@@ -251,6 +251,42 @@ protected:
       // this line should not be reached
       return true;
     }
+    bool update(Key key, Val new_val){
+      if (root){
+        Node* current_node {root.get()};
+
+        while (current_node){
+          if (key == current_node->key){
+            current_node->val = new_val;
+
+            return true;
+          }
+          else{
+            if (key < current_node->key){
+              if (current_node->left){
+                current_node = current_node->left.get();
+              }
+              else{
+                return false;
+              }
+            }
+            else if (key > current_node->key){
+              if (current_node->right){
+                current_node = current_node->right.get();
+              }
+              else{
+                return false;
+              }
+            }
+          }
+        }
+      }
+      else{
+        return false;
+      }
+      // should not be reached
+      return false;
+    }
     // removes Key and corresponding attached Val. Return value
     // indicates whether removal really took place
     bool remove(Key key){
@@ -335,6 +371,9 @@ public:
   // yet. Return value indicates whether insertion really took place
   bool insert(Key key, Val val){
     return bst.insert(key, val);
+  }
+  bool update(Key key, Val new_val){
+    return bst.update(key, new_val);
   }
   // removes Key and corresponding attached Val. Return value
   // indicates whether removal really took place
