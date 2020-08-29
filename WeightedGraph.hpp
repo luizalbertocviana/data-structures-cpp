@@ -14,9 +14,9 @@ private:
   Graph graph_;
   map_edge_weight edge_weight_;
 public:
-  const size_type num_verts;
-  const size_type num_edges;
   
+  const size_type& num_verts;
+  const size_type& num_edges;
   WeightedGraph(size_type num_verts) : graph_{num_verts}, edge_weight_{}, num_verts{graph_.num_verts}, num_edges{graph_.num_edges}
   {}
 
