@@ -4,16 +4,20 @@
 
 int main(){
   WeightedGraph wg {10};
+  assert(wg.num_verts == 10);
+  assert(wg.num_edges == 0);
 
   wg.add_edge(1, 2, 10);
   wg.add_edge(8, 9, 20);
 
+  assert(wg.num_edges == 2);
   assert(wg.has_edge(1, 2));
   assert(wg.has_edge(8, 9));
   assert(wg.edge_weight(1, 2) == 10);
   assert(wg.edge_weight(8, 9) == 20);
 
   wg.remove_edge(1, 2);
+  assert(wg.num_edges == 1);
   assert(!wg.has_edge(1, 2));
 
   int w {wg.edge_weight(8, 9)};
