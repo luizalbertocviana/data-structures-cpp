@@ -265,8 +265,6 @@ private:
       return {(n_ - 1) - i, (n_ - 1) - j};
     }
   }
-  // every access to a lower triangle position will return this value
-  static constexpr const Type default_type_value {};
   // class to represent a reference to a position in our matrix. We
   // declare it as a template to get mutable and const references
   template<typename Parent>
@@ -292,7 +290,7 @@ private:
       }
       // if it refers to a lower triangle position
       else{
-        return default_type_value;
+        return {};
       }
     }
     // assigns value to reference position in parent matrix
