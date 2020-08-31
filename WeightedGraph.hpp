@@ -9,7 +9,7 @@
 template<typename Weight = int>
 class WeightedGraph{
 public:
-  // we the same size_tyoe as Graph
+  // we use the same size_tyoe as Graph
   using size_type = Graph::size_type;
 private:
   // we use a binary search tree, indexed by pairs of size_type and
