@@ -26,7 +26,7 @@ public:
   WeightedGraph(size_type num_verts)
     : graph_{num_verts}, edge_weight_{}, num_verts{graph_.num_verts}, num_edges{graph_.num_edges}
   {}
-  // determines wheter an edge between u and v exists
+  // determines whether an edge between u and v exists
   bool has_edge(size_type u, size_type v){
     return graph_.has_edge(u, v);
   }
