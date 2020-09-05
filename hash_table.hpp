@@ -61,7 +61,7 @@ template<typename Key, typename Val,
 class HashTable{
   static constexpr const HashFunction<Key, HashKey> hash_function_ {};
 
-  static constexpr const decltype(sizeof(HashKey)) bucket_number_ {std::pow(2, sizeof(HashKey))};
+  static constexpr const decltype(sizeof(HashKey)) bucket_number_ {pow2(sizeof(HashKey) * 8)};
 
   using Bucket = LinkedList<Key, Val>;
   using BucketArray = std::array<Bucket, bucket_number_>;
