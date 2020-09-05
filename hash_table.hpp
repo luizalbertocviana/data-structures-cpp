@@ -49,13 +49,13 @@ struct SimpleHash{
   }
 };
 
-template<typename Key, typename Val, typename HashKey = uint8_t,
-         template<typename HK, typename K>
 template<typename UnsignedIntegral>
 constexpr auto pow2(UnsignedIntegral n){
   return 1 << n;
 }
 
+template<typename Key, typename Val,
+         typename HashKey = uint8_t,
          template<typename K, typename HK>
          typename HashFunction = SimpleHash>
 class HashTable{
