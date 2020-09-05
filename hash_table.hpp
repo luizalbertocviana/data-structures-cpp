@@ -63,7 +63,7 @@ class HashTable{
 
   static constexpr const decltype(sizeof(HashKey)) bucket_number_ {pow2(sizeof(HashKey) * 8)};
 
-  using Bucket = LinkedList<Key, Val>;
+  using Bucket      = LinkedList<Key, Val>;
   using BucketArray = std::array<Bucket, bucket_number_>;
 };
 
