@@ -31,7 +31,7 @@ struct SimpleHash{
         constexpr auto div {sizeof(Key) / sizeof(HashKey)};
         constexpr auto rem {sizeof(Key) % sizeof(HashKey)};
 
-        char* raw_adress {((char*) &key) + rem};
+        uint8_t* raw_adress {((uint8_t*) &key) + rem};
 
         HashKey* shallow_view {raw_adress};
 
