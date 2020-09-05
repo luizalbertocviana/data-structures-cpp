@@ -65,6 +65,36 @@ class HashTable{
 
   using Bucket      = LinkedList<Key, Val>;
   using BucketArray = std::array<Bucket, bucket_number_>;
+
+  BucketArray bucket_;
+
+  const Bucket& select_bucket_(const Key& key) const{
+    return bucket_[hash_function_(key)];
+  }
+  Bucket& select_bucket_(const Key& key){
+    return bucket_[hash_function_(key)];
+  }
+public:
+  HashTable() : bucket_{}
+  {}
+
+  std::optional<Val> search(const Key& key) const{
+    const Bucket& target_bucket {select_bucket_(key)};
+
+    return target_bucket.search(key);
+  }
+
+  bool insert(const Key& key, const Val& val){
+    Bucket& target_bucket {select_bucket_(key)};
+
+    return target_bucket.push(key, val);
+  }
+
+  std::optional<Val> remove(const Key& key){
+    Bucket& target_bucket {select_bucket_(key)};
+
+    return target_bucket.remove(key);
+  }
 };
 
 #endif
