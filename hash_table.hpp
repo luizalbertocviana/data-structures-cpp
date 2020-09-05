@@ -23,7 +23,7 @@ constexpr Endian endian_order(){
   }
 }
 
-template<typename HashKey, typename Key>
+template<typename Key, typename HashKey>
 struct SimpleHash{
   HashKey operator() (const Key& key) const{
     if constexpr (sizeof(HashKey) < sizeof(Key)){
@@ -51,9 +51,10 @@ struct SimpleHash{
 
 template<typename Key, typename Val, typename HashKey = uint8_t,
          template<typename HK, typename K>
+         template<typename K, typename HK>
          typename HashFunction = SimpleHash>
 class HashTable{
-  static constexpr const HashFunction<HashKey, Key> hash_function_ {};
+  static constexpr const HashFunction<Key, HashKey> hash_function_ {};
 
   static constexpr const decltype(sizeof(HashKey)) bucket_number_ {std::pow(2, sizeof(HashKey))};
 
