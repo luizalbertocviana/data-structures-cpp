@@ -6,21 +6,15 @@
 #include <cstdint>
 // our buckets will be represented by linked lists
 #include <linked_list.hpp>
-// this enum helps us to detect endian order. Both little_endian and
-// big_endian represent unsigned integer 1: the former in little
-// endian order; the latter in big endian order
-enum Endian : uint32_t {
-  little_endian = 0x00000001,
-  big_endian    = 0x01000000
-};
+// this enum is used to represent the endianness in use
+enum class Endian {little_endian, big_endian};
 // detects the endian order used, returning the appropriate Endian
 // member
-constexpr Endian endian_order(){
-  // unsigned 32 bit integer with all bits set
-  constexpr uint32_t all_set_mask {0xffffffff};
-  // we perform all_set_mask & 1 to detect where the least
-  // significative bit is located, then verify if it is the final bit
-  if constexpr ((all_set_mask & 1 ) == Endian::little_endian){
+Endian endian_order(){
+  uint32_t one_32 {1};
+  uint8_t first_byte {*(uint8_t*) &one_32};
+
+  if (first_byte == 1){
     return Endian::little_endian;
   }
   else{
