@@ -30,14 +30,14 @@ struct SimpleHash{
     // if HashKey has a size smaller than the size of Key
     if constexpr (sizeof(HashKey) < sizeof(Key)){
       // if we are using little endian order
-      if constexpr (endian_order() == Endian::little_endian){
+      if (endian_order() == Endian::little_endian){
         // sizeof(Key) == div * sizeof(HashKey) + rem
         constexpr auto div {sizeof(Key) / sizeof(HashKey)};
         constexpr auto rem {sizeof(Key) % sizeof(HashKey)};
         // we take key address skipping the first rem bytes
         uint8_t* raw_adress {((uint8_t*) &key) + rem};
         // we take raw_adress as a HashKey address
-        HashKey* shallow_view {raw_adress};
+        HashKey* shallow_view {(HashKey*) raw_adress};
         // then we return the last "occurrence" of a HashKey inside
         // key
         return shallow_view[div - 1];
@@ -46,7 +46,7 @@ struct SimpleHash{
       // few of the first bytes of key
       else{
         // we take key address as a HashKey address
-        HashKey* shallow_view {&key};
+        HashKey* shallow_view {(HashKey*) &key};
         // then we return the first "occurrence" of a HashKey inside
         // key
         return shallow_view[0];
