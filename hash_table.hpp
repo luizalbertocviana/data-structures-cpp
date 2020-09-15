@@ -101,7 +101,7 @@ public:
   // searches for key and returns its associated value. Returns
   // nothing in case key is not present
   std::optional<Val> search(const Key& key) const{
-    // selects a bucket in which the search will be performed
+    // selects the bucket in which the search will be performed
     const Bucket& target_bucket {select_bucket_(key)};
     // then does the search
     return target_bucket.search(key);
