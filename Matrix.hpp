@@ -259,7 +259,7 @@ private:
   // (upside down) and the upper half to the right
   std::pair<size_type, size_type> index_(size_type i, size_type j) const{
     if (i < half_rows_){
-      return {i, i + 1 + j};
+      return {i, 1 + j};
     }
     else{
       return {(n_ - 1) - i, (n_ - 1) - j};
