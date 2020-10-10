@@ -26,7 +26,23 @@ void test_square_matrix(){
 }
 
 void test_upper_triangular_matrix(){
-  UpperTriangularMatrix<bool> ut_m {4};
+  UpperTriangularMatrix<bool> ut_m {6};
+
+  assert(ut_m.at(1, 5) == false);
+  assert(ut_m.at(3, 5) == false);
+
+  ut_m.at(1, 5) = true;
+
+  assert(ut_m.at(1, 5) == true);
+  assert(ut_m.at(3, 5) == false);
+
+  assert(ut_m.at(2, 5) == false);
+  assert(ut_m.at(4, 5) == false);
+
+  ut_m.at(2, 5) = true;
+
+  assert(ut_m.at(2, 5) == true);
+  assert(ut_m.at(4, 5) == false);
 
   ut_m.at(3,3) = false;
 
