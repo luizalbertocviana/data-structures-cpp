@@ -18,6 +18,12 @@ private:
   // our private members: an undirected graph and an edge-weight mapping
   Graph graph_;
   map_edge_weight edge_weight_;
+
+  static void adjust_endpoints_(size_type& u, size_type& v){
+    if (u > v){
+      std::swap(u, v);
+    }
+  }
 public:
   // public const references to number of vertices and edges, respectively
   const size_type& num_verts;
@@ -39,6 +45,8 @@ public:
     }
     // otherwise ...
     else{
+      // adjusts endpoints
+      adjust_endpoints_(u, v);
       // adds edge ...
       graph_.add_edge(u, v);
       // and associate it with weight w
@@ -52,6 +60,8 @@ public:
   bool remove_edge(size_type u, size_type v){
     // if graph has edge ...
     if (has_edge(u, v)){
+      // adjusts endpoints
+      adjust_endpoints_(u, v);
       // removes it ...
       graph_.remove_edge(u, v);
       // and deletes its weight association
@@ -68,6 +78,9 @@ public:
   // not exist, returms default initialization value of Weight
   Weight edge_weight(size_type u, size_type v){
     if (has_edge(u, v)){
+      // adjusts endpoints
+      adjust_endpoints_(u, v);
+
       return *edge_weight_.search({u, v});
     }
     else{
@@ -78,6 +91,9 @@ public:
   // nonexisting edge, does nothing
   void set_edge_weight(size_type u, size_type v, Weight w){
     if (has_edge(u, v)){
+      // adjusts endpoints
+      adjust_endpoints_(u, v);
+
       edge_weight_.update({u, v}, w);
     }
   }
