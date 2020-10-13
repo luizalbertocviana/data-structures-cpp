@@ -12,9 +12,13 @@ void test1(){
 
   assert(wg.num_edges == 2);
   assert(wg.has_edge(1, 2));
+  assert(wg.has_edge(2, 1));
   assert(wg.has_edge(8, 9));
+  assert(wg.has_edge(9, 8));
   assert(wg.edge_weight(1, 2) == 10);
+  assert(wg.edge_weight(2, 1) == 10);
   assert(wg.edge_weight(8, 9) == 20);
+  assert(wg.edge_weight(9, 8) == 20);
 
   wg.remove_edge(1, 2);
   assert(wg.num_edges == 1);
