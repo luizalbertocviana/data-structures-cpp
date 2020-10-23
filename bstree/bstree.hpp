@@ -73,6 +73,25 @@ private:
     }
   }
 
+  static bool update_(node_ptr& node, const Key& key, const Val& new_val){
+    if (node) {
+      if (key < node->key) {
+        return update_(node->left, key, new_val);
+      }
+      else if (key > node->key) {
+        return update_(node->left, key, new_val);
+      }
+      else {
+        node->val = new_val;
+
+        return true;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
   template<typename Function>
   static std::optional<std::pair<Key, Val>> deepest_key_(const Node* node, const Function& child_selector){
     if (node){
@@ -179,6 +198,10 @@ public:
 
   bool insert(const Key& key, const Val& val){
     return insert_(root_, key, val);
+  }
+
+  bool update(const Key& key, const Val& new_val){
+    return update_(root_, key, new_val);
   }
 
   bool remove(const Key& key){
