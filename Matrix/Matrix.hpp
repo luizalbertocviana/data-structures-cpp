@@ -259,14 +259,12 @@ private:
   // (upside down) and the upper half to the right
   std::pair<size_type, size_type> index_(size_type i, size_type j) const{
     if (i < half_rows_){
-      return {i, i + 1 + j};
+      return {i, 1 + j};
     }
     else{
       return {(n_ - 1) - i, (n_ - 1) - j};
     }
   }
-  // every access to a lower triangle position will return this value
-  static constexpr const Type default_type_value {};
   // class to represent a reference to a position in our matrix. We
   // declare it as a template to get mutable and const references
   template<typename Parent>
@@ -292,7 +290,7 @@ private:
       }
       // if it refers to a lower triangle position
       else{
-        return default_type_value;
+        return {};
       }
     }
     // assigns value to reference position in parent matrix

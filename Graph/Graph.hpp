@@ -135,7 +135,7 @@ void depth_first_search(const Digraph& D, Digraph::size_type start, Function vis
     }
   }
 }
-// a class to represnet an undirected graph
+// a class to represent an undirected graph
 class Graph : public Digraph_<UpperTriangularMatrix>{
 private:
   // alias for superclass
@@ -151,28 +151,34 @@ private:
       std::swap(u, v);
     }
   }
+
+  template<typename Method>
+  bool adjust_and_call_(Method method, size_type u, size_type v){
+    adjust_endpoints_(u, v);
+
+    return (this->*method) (u, v);
+  }
+  template<typename Method>
+  bool adjust_and_call_(Method method, size_type u, size_type v) const{
+    adjust_endpoints_(u, v);
+
+    return (this->*method) (u, v);
+  }
 public:
   // builds an undirected graph with num_v vertices
   Graph(size_type num_v) : Digraph{num_v}
   {}
   // determines whether there is an edge between u and v
   bool has_edge(size_type u, size_type v) const{
-    // notice that this enforces the lack of direction in our representation
-    adjust_endpoints_(u, v);
-    // delegates all the work to the superclass
-    return Digraph::has_edge(u, v);
+    return adjust_and_call_(&Digraph::has_edge, u, v);
   }
   // adds edge between u and v
   bool add_edge(size_type u, size_type v){
-    adjust_endpoints_(u, v);
-    // delegates all the work to the superclass
-    return Digraph::add_edge(u, v);
+    return adjust_and_call_(&Digraph::add_edge, u, v);
   }
   // removes edge between u and v
   bool remove_edge(size_type u, size_type v){
-    adjust_endpoints_(u, v);
-    // delegates all the work to the superclass
-    return Digraph::remove_edge(u, v);
+    return adjust_and_call_(&Digraph::remove_edge, u, v);
   }
 };
 
