@@ -62,3 +62,8 @@ add_executable(stack_tester stack.cpp)
 target_link_libraries(stack_tester PRIVATE stack)
 
 add_test(NAME stack_test COMMAND stack_tester)
+
+add_executable(weighted_graph_tester weighted_graph.cpp)
+target_link_libraries(weighted_graph_tester PRIVATE weighted_graph)
+
+add_test(NAME weighted_graph_test COMMAND weighted_graph_tester)
