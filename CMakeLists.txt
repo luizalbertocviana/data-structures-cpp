@@ -33,6 +33,7 @@ add_subdirectory(queue)
 add_subdirectory(rbtree)
 add_subdirectory(sorting)
 add_subdirectory(stack)
+add_subdirectory(weighted_graph)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     add_subdirectory(tests)
