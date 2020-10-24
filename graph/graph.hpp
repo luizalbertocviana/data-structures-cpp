@@ -2,7 +2,7 @@
 #ifndef graph_hpp
 #define graph_hpp
 // we are going to use matrices to represent our graphs
-#include <Matrix.hpp>
+#include <matrix.hpp>
 // stack and vector will be used in depth first search
 #include <stack>
 #include <vector>
