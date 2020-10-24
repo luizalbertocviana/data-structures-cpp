@@ -23,20 +23,25 @@ target_link_libraries(disjoint_sets_tester PRIVATE disjoint_sets)
 
 add_test(NAME disjoint_sets_test COMMAND disjoint_sets_tester)
 
-add_executable(Graph_tester Graph.cpp)
-target_link_libraries(Graph_tester PRIVATE Graph)
+add_executable(graph_tester graph.cpp)
+target_link_libraries(graph_tester PRIVATE graph)
 
-add_test(NAME Graph_test COMMAND Graph_tester)
+add_test(NAME graph_test COMMAND graph_tester)
+
+add_executable(hash_table_tester hash_table.cpp)
+target_link_libraries(hash_table_tester PRIVATE hash_table)
+
+add_test(NAME hash_table_test COMMAND hash_table_tester)
 
 add_executable(linked_list_tester linked_list.cpp)
 target_link_libraries(linked_list_tester PRIVATE linked_list)
 
 add_test(NAME linked_list_test COMMAND linked_list_tester)
 
-add_executable(Matrix_tester Matrix.cpp)
-target_link_libraries(Matrix_tester PRIVATE Matrix)
+add_executable(matrix_tester matrix.cpp)
+target_link_libraries(matrix_tester PRIVATE matrix)
 
-add_test(NAME Matrix_test COMMAND Matrix_tester)
+add_test(NAME matrix_test COMMAND matrix_tester)
 
 add_executable(queue_tester queue.cpp)
 target_link_libraries(queue_tester PRIVATE queue)
