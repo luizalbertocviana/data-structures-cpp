@@ -1,2 +1,2 @@
-add_library(Matrix INTERFACE)
-target_include_directories(Matrix INTERFACE .)
+add_library(matrix INTERFACE)
+target_include_directories(matrix INTERFACE .)
