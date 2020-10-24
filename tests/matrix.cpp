@@ -1,6 +1,6 @@
 #include <cassert>
 
-#include <Matrix.hpp>
+#include <matrix.hpp>
 
 void test_matrix(){
   Matrix<bool> m {3, 4};
