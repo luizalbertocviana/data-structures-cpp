@@ -1,6 +1,6 @@
 #include <cassert>
 
-#include <WeightedGraph.hpp>
+#include <weighted_graph.hpp>
 
 void test1(){
   WeightedGraph wg {10};
