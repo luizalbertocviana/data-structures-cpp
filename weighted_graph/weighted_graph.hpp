@@ -3,7 +3,7 @@
 // we use bstree to establish a relation between edges and weights
 #include <bstree.hpp>
 // we are going to use Graph class as a component
-#include <Graph.hpp>
+#include <graph.hpp>
 // class to represent an undirected graph with weight values
 // associated to its edges. Default weight type is int
 template<typename Weight = int>
