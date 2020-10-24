@@ -1,6 +1,6 @@
 #include <cassert>
 
-#include <Graph.hpp>
+#include <graph.hpp>
 
 void test_digraph(){
   Digraph D {20};
